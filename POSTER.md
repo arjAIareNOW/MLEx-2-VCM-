@@ -40,8 +40,8 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 
 | Item | Value |
 |---|---|
-| Keyword / intent acc | WAKE_TODO % / **98.39 %** (holdout, intent) |
-| False-accept rate | WAKE_FA_TODO |
+| Keyword / intent acc | **86.6 %** generated voices, **65.6 %** real-speaker phrases (wake word, test, 0.886 × 2) / **98.39 %** (holdout, intent) |
+| False-accept rate | wake word: **1.5 %** of real sentences, **0 / 6,194** real words, 1 / 89 real commands (test); intent out-of-scope: 31.6 % (test) |
 | Latency p95 / RTF | PI_TODO ms / PI_TODO |
 | Runtime | onnxruntime · 1 thr |
 

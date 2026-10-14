@@ -2,9 +2,9 @@
  "bundle": "ME2 voice-controlled smart device: wake word + intent + slot (ONNX, CPU)",
  "sample_rate": 16000,
  "wake": {
-  "name": "Hello / Hi Elkit (openWakeWord embeddings + Elkit head)",
+  "name": "Hello / Hi Elkit (openWakeWord embeddings + Elkit head, job 65684)",
   "onnx": "hello_elkit_oww_head.onnx",
-  "sha256": "339a0088f680b5b1ceedf5c6d87e50a3730635696e3c6f8a78eb1812ed018f9f",
+  "sha256": "71b2e16bfc5dfe64363be4c97df1c7fc07049545d8c49e1eea4e4d82662a0af9",
   "melspectrogram_onnx": "melspectrogram.onnx",
   "melspectrogram_sha256": "ba2b0e0f8b7b875369a2c89cb13360ff53bac436f2895cced9f479fa65eb176f",
   "embedding_onnx": "embedding_model.onnx",
@@ -12,20 +12,19 @@
   "frontend": "openWakeWord v0.5.1 melspectrogram + embedding models (Apache-2.0), frozen; mel input = audio * 32767, mel/10 + 2",
   "input": "embeddings float32 [N,16,96] = 16 openWakeWord embeddings (one per 80 ms) = 2 s of audio",
   "output": "logit [N] -> sigmoid = P(Hello Elkit or Hi Elkit)",
-  "streaming_threshold": 0.757475,
-  "threshold_rule": "chosen on DEV voices: <= 0.1 % false wakes on unrelated real speech (MSWC words + ai231 commands); sound-alike phrases ('Hi, el kid') are allowed to wake it",
+  "streaming_threshold": 0.886,
+  "threshold_rule": "chosen on DEV voices: with 2 windows in a row, the threshold that wakes on as many DEV 'Hello/Hi Elkit' phrases as the previous head (job 65357) did at its field setting 0.94 x 2; at that wake rate the new head has ~10x fewer false wakes on real sentences. Sound-alike phrases ('Hi, el kid') may wake it",
   "alternative_thresholds": {
-   "fewer_false_wakes": 0.880038,
-   "strict_soundalikes_1pct": 0.981986
+   "fewer_false_wakes": 0.94
   },
   "alternative_rules": {
-   "fewer_false_wakes": "<= 2 of 90 DEV real ai231 commands wake it",
-   "strict_soundalikes_1pct": "<= 1 % of DEV sound-alike phrases wake it (catches far fewer)"
+   "fewer_false_wakes": "0.94 x 2: fewer false wakes, but misses clearly more wake phrases (docs/03)"
   },
   "stride_ms": 80,
-  "consecutive_hits": 1,
+  "consecutive_hits": 2,
   "cooldown_ms": 1000,
-  "training_data": "TTS (Piper + Meta MMS voices) 'Hello/Hi Elkit' + confusables, real MSWC words / MLS 'el' splices, ai231 + Speech Commands negatives, DEMAND training rooms"
+  "training_data": "TTS (Piper + Meta MMS voices) 'Hello/Hi Elkit' + confusables, real MSWC words / MLS 'el' splices, ai231 + Speech Commands negatives, 10.3 h real sentences (ai231 real voices + MLS Spanish) as negatives, DEMAND training rooms",
+  "job": 65684
  },
  "wake_backup": {
   "input": "log_mel float32 [N,1,40,97] (marvin_engine.features.wake_features of 1 s windows)",

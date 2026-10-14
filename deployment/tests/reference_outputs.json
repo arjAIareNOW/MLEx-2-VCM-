@@ -1,0 +1,262 @@
+[
+ {
+  "file": "audio/holdout_000000_real_voice_PLAY_MUSIC_V2_t2.wav",
+  "intent": "NEXT",
+  "confidence": 0.818201,
+  "slot": null,
+  "elkit": 0.056884,
+  "marvin": 0.193443
+ },
+ {
+  "file": "audio/holdout_000001_group_synthetic_PLAY_MUSIC_s10_v1_clean.wav",
+  "intent": "PLAY_MUSIC",
+  "confidence": 0.917708,
+  "slot": null,
+  "elkit": 0.026536,
+  "marvin": 0.028346
+ },
+ {
+  "file": "audio/holdout_000002_real_voice_PLAY_MUSIC_V3_t2.wav",
+  "intent": "PLAY_MUSIC",
+  "confidence": 0.919641,
+  "slot": null,
+  "elkit": 0.052386,
+  "marvin": 0.2871
+ },
+ {
+  "file": "audio/holdout_000003_group_synthetic_PLAY_MUSIC_s10_v2_clean.wav",
+  "intent": "PLAY_MUSIC",
+  "confidence": 0.911542,
+  "slot": null,
+  "elkit": 0.024905,
+  "marvin": 0.185839
+ },
+ {
+  "file": "audio/holdout_000004_FluentSpeechCommands_c5d5f9c0-4547-11e9-aa52-bf2189a03a60.wav",
+  "intent": "STOP",
+  "confidence": 0.689423,
+  "slot": null,
+  "elkit": 0.032533,
+  "marvin": 0.086585
+ },
+ {
+  "file": "audio/holdout_000005_group_synthetic_PLAY_MUSIC_s10_v3_clean.wav",
+  "intent": "PLAY_MUSIC",
+  "confidence": 0.911079,
+  "slot": null,
+  "elkit": 0.026813,
+  "marvin": 0.036037
+ },
+ {
+  "file": "audio/holdout_000006_real_voice_WEATHER_V1_t2.wav",
+  "intent": "WEATHER",
+  "confidence": 0.916046,
+  "slot": null,
+  "elkit": 0.029232,
+  "marvin": 0.438977
+ },
+ {
+  "file": "audio/holdout_000007_group_synthetic_WEATHER_s10_v1_clean.wav",
+  "intent": "WEATHER",
+  "confidence": 0.915785,
+  "slot": null,
+  "elkit": 0.023577,
+  "marvin": 0.059507
+ },
+ {
+  "file": "audio/holdout_000008_real_voice_WEATHER_V2_t2.wav",
+  "intent": "WEATHER",
+  "confidence": 0.924032,
+  "slot": null,
+  "elkit": 0.032656,
+  "marvin": 0.513681
+ },
+ {
+  "file": "audio/holdout_000009_group_synthetic_WEATHER_s10_v2_clean.wav",
+  "intent": "WEATHER",
+  "confidence": 0.9143,
+  "slot": null,
+  "elkit": 0.023915,
+  "marvin": 0.041302
+ },
+ {
+  "file": "audio/holdout_000010_real_voice_WEATHER_V3_t1.wav",
+  "intent": "WEATHER",
+  "confidence": 0.920307,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000011_group_synthetic_WEATHER_s10_v3_clean.wav",
+  "intent": "WEATHER",
+  "confidence": 0.902369,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000012_real_voice_TIME_V1_t1.wav",
+  "intent": "TIME",
+  "confidence": 0.900887,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000013_group_synthetic_TIME_s10_v1_clean.wav",
+  "intent": "TIME",
+  "confidence": 0.90279,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000014_real_voice_TIME_V2_t1.wav",
+  "intent": "TIME",
+  "confidence": 0.921196,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000015_group_synthetic_TIME_s10_v2_clean.wav",
+  "intent": "TIME",
+  "confidence": 0.910245,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000016_real_voice_TIME_V3_t1.wav",
+  "intent": "TIME",
+  "confidence": 0.908745,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000017_group_synthetic_TIME_s10_v3_clean.wav",
+  "intent": "TIME",
+  "confidence": 0.902463,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000018_real_voice_LIGHT_ON_V1_t2.wav",
+  "intent": "LIGHT_ON",
+  "confidence": 0.888157,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000019_group_synthetic_LIGHT_ON_s10_v1_clean.wav",
+  "intent": "LIGHT_ON",
+  "confidence": 0.885759,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000020_real_voice_LIGHT_ON_V2_t2.wav",
+  "intent": "LIGHT_ON",
+  "confidence": 0.861775,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000021_group_synthetic_LIGHT_ON_s10_v2_clean.wav",
+  "intent": "LIGHT_ON",
+  "confidence": 0.879454,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000022_real_voice_LIGHT_ON_V3_t1.wav",
+  "intent": "LIGHT_ON",
+  "confidence": 0.873442,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000023_group_synthetic_LIGHT_ON_s10_v3_clean.wav",
+  "intent": "LIGHT_ON",
+  "confidence": 0.882693,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000024_real_voice_LIGHT_OFF_V1_t1.wav",
+  "intent": "LIGHT_OFF",
+  "confidence": 0.640347,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000025_group_synthetic_LIGHT_OFF_s10_v1_clean.wav",
+  "intent": "LIGHT_OFF",
+  "confidence": 0.890094,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000026_real_voice_LIGHT_OFF_V2_t2.wav",
+  "intent": "LIGHT_OFF",
+  "confidence": 0.894573,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000027_group_synthetic_LIGHT_OFF_s10_v2_clean.wav",
+  "intent": "LIGHT_OFF",
+  "confidence": 0.88132,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000028_real_voice_LIGHT_OFF_V3_t2.wav",
+  "intent": "LIGHT_OFF",
+  "confidence": 0.650843,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000029_group_synthetic_LIGHT_OFF_s10_v3_clean.wav",
+  "intent": "LIGHT_OFF",
+  "confidence": 0.872674,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000030_real_voice_PAUSE_V1_t1.wav",
+  "intent": "PAUSE",
+  "confidence": 0.940187,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000031_group_synthetic_PAUSE_s10_v1_clean.wav",
+  "intent": "PAUSE",
+  "confidence": 0.950876,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000032_real_voice_PAUSE_V2_t1.wav",
+  "intent": "PAUSE",
+  "confidence": 0.945997,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000033_group_synthetic_PAUSE_s10_v2_clean.wav",
+  "intent": "PAUSE",
+  "confidence": 0.949367,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000034_real_voice_PAUSE_V3_t1.wav",
+  "intent": "PAUSE",
+  "confidence": 0.924937,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000035_group_synthetic_PAUSE_s10_v3_clean.wav",
+  "intent": "PAUSE",
+  "confidence": 0.950132,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000036_real_voice_STOP_V2_t1.wav",
+  "intent": "STOP",
+  "confidence": 0.90036,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000037_group_synthetic_STOP_s10_v1_clean.wav",
+  "intent": "STOP",
+  "confidence": 0.906733,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000038_real_voice_STOP_V3_t1.wav",
+  "intent": "STOP",
+  "confidence": 0.903524,
+  "slot": null
+ },
+ {
+  "file": "audio/holdout_000039_group_synthetic_STOP_s10_v2_clean.wav",
+  "intent": "STOP",
+  "confidence": 0.902958,
+  "slot": null
+ }
+]

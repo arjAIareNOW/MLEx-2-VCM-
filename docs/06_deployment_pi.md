@@ -78,5 +78,5 @@ event: `{"event": "wake", "probability": ...}` and `{"intent": ..., "slot": ...,
 ## Wake-word threshold
 
 `models/config.json` → `wake.streaming_threshold` and `wake.consecutive_hits` (override with
-`python -m vcm_engine listen --wake-threshold 0.94 --wake-consecutive 2`). See [03](03_wakeword_elkit.md) for what each setting catches and
+`python -m vcm_engine listen --wake-threshold 0.94 --wake-consecutive 2` for fewer false wakes; the default is 0.886 × 2). See [03](03_wakeword_elkit.md) for what each setting catches and
 how often unrelated speech wakes it.

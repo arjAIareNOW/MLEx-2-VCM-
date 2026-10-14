@@ -1,0 +1,278 @@
+{
+ "scores": "runs/elkit/scores_engine.npz",
+ "rule": "threshold = <= 0.1 % of DEV unrelated real speech wakes it",
+ "settings": {
+  "dev_0.1pct x 1": {
+   "threshold": 0.974122,
+   "consecutive": 1,
+   "dev": {
+    "elkit_tts": [
+     0.5293,
+     1499,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.0712,
+     57,
+     800
+    ],
+    "soundalike": [
+     0.017,
+     65,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6262
+    ],
+    "real_command": [
+     0.0,
+     0,
+     90
+    ],
+    "real_sentence": [
+     0.0031,
+     9,
+     2918
+    ]
+   },
+   "test": {
+    "elkit_tts": [
+     0.5321,
+     1507,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.04,
+     32,
+     800
+    ],
+    "soundalike": [
+     0.0141,
+     54,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6194
+    ],
+    "real_command": [
+     0.0,
+     0,
+     89
+    ],
+    "real_sentence": [
+     0.0014,
+     5,
+     3491
+    ]
+   }
+  },
+  "dev_0.1pct x 2": {
+   "threshold": 0.964845,
+   "consecutive": 2,
+   "dev": {
+    "elkit_tts": [
+     0.5872,
+     1663,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.1713,
+     137,
+     800
+    ],
+    "soundalike": [
+     0.0227,
+     87,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6262
+    ],
+    "real_command": [
+     0.0,
+     0,
+     90
+    ],
+    "real_sentence": [
+     0.0031,
+     9,
+     2918
+    ]
+   },
+   "test": {
+    "elkit_tts": [
+     0.6081,
+     1722,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.115,
+     92,
+     800
+    ],
+    "soundalike": [
+     0.0201,
+     77,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6194
+    ],
+    "real_command": [
+     0.0,
+     0,
+     89
+    ],
+    "real_sentence": [
+     0.002,
+     7,
+     3491
+    ]
+   }
+  },
+  "0.886 x 2": {
+   "threshold": 0.886,
+   "consecutive": 2,
+   "dev": {
+    "elkit_tts": [
+     0.852,
+     2413,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.7137,
+     571,
+     800
+    ],
+    "soundalike": [
+     0.0845,
+     324,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6262
+    ],
+    "real_command": [
+     0.0,
+     0,
+     90
+    ],
+    "real_sentence": [
+     0.0236,
+     69,
+     2918
+    ]
+   },
+   "test": {
+    "elkit_tts": [
+     0.8662,
+     2453,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.6562,
+     525,
+     800
+    ],
+    "soundalike": [
+     0.0876,
+     336,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6194
+    ],
+    "real_command": [
+     0.0112,
+     1,
+     89
+    ],
+    "real_sentence": [
+     0.0155,
+     54,
+     3491
+    ]
+   }
+  },
+  "0.94 x 2": {
+   "threshold": 0.94,
+   "consecutive": 2,
+   "dev": {
+    "elkit_tts": [
+     0.7602,
+     2153,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.4913,
+     393,
+     800
+    ],
+    "soundalike": [
+     0.0532,
+     204,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6262
+    ],
+    "real_command": [
+     0.0,
+     0,
+     90
+    ],
+    "real_sentence": [
+     0.0099,
+     29,
+     2918
+    ]
+   },
+   "test": {
+    "elkit_tts": [
+     0.779,
+     2206,
+     2832
+    ],
+    "elkit_real_splice": [
+     0.4288,
+     343,
+     800
+    ],
+    "soundalike": [
+     0.0496,
+     190,
+     3834
+    ],
+    "real_word": [
+     0.0,
+     0,
+     6194
+    ],
+    "real_command": [
+     0.0,
+     0,
+     89
+    ],
+    "real_sentence": [
+     0.0057,
+     20,
+     3491
+    ]
+   }
+  }
+ }
+}

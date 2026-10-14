@@ -106,13 +106,15 @@ class WakeWord:
 
     def score_clip(self, audio: np.ndarray) -> float:
         """Offline score of a short recording with the streaming rule: 1 s of silence before the clip, >= 2.5 s in total,
-        max P(Elkit) over every 2 s window on the 80 ms grid (= what push() would see)."""
+        best run of `consecutive` windows on the 80 ms grid: max over steps of the lowest P(Elkit) in the run, so
+        score >= threshold exactly when push() would wake on this recording (consecutive=1: max P over all windows)."""
         x = np.asarray(audio, np.float32).reshape(-1)
         x = np.concatenate([np.zeros(16000, np.float32), x, np.zeros(max(8000, 24000 - x.size), np.float32)])
         saved = self.cache; self.cache = {}
-        best = max(self._window(x[s:s + self.WIN], s // self.STRIDE) for s in range(0, x.size - self.WIN + 1, self.STRIDE))
+        seq = np.array([self._window(x[s:s + self.WIN], s // self.STRIDE) for s in range(0, x.size - self.WIN + 1, self.STRIDE)])
         self.cache = saved
-        return best
+        n = min(max(self.consecutive, 1), seq.size)
+        return float(np.lib.stride_tricks.sliding_window_view(seq, n).min(1).max())
 
 
 class MarvinWakeWord:
