@@ -1,0 +1,3 @@
+numpy>=1.23
+onnxruntime>=1.16
+sounddevice>=0.4.6   # live microphone only (Windows/macOS: bundled PortAudio; Raspberry Pi: sudo apt install libportaudio2)

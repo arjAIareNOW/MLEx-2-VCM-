@@ -1,0 +1,47 @@
+{
+  "kind": "intent",
+  "opset": 17,
+  "onnx_file": "intent.onnx",
+  "onnx_bytes": 2685398,
+  "onnx_sha256": "2b99bc2eb2bc0b238815d5f825030b3402236ff11593c8e7bb284eefbf215c55",
+  "checkpoint_sha256": "1065d9f092431ae3587b7065bd5ec5ff9b681f4e0be586a8ed1e906c4f220f96",
+  "batch": "exactly 1",
+  "inputs": {
+    "log_mel": "float32 [B,1,64,T]",
+    "frame_lengths": "int64 [B]"
+  },
+  "output": "logits [B,19]",
+  "onnxruntime_version": "1.19.2",
+  "pytorch_vs_onnxruntime": [
+    {
+      "frames": 17,
+      "max_abs_logit_diff": 1.1920928955078125e-06,
+      "same_argmax": true
+    },
+    {
+      "frames": 41,
+      "max_abs_logit_diff": 1.1920928955078125e-06,
+      "same_argmax": true
+    },
+    {
+      "frames": 121,
+      "max_abs_logit_diff": 2.1457672119140625e-06,
+      "same_argmax": true
+    },
+    {
+      "frames": 173,
+      "max_abs_logit_diff": 7.748603820800781e-07,
+      "same_argmax": true
+    },
+    {
+      "frames": 302,
+      "max_abs_logit_diff": 7.152557373046875e-07,
+      "same_argmax": true
+    },
+    {
+      "frames": 501,
+      "max_abs_logit_diff": 8.344650268554688e-07,
+      "same_argmax": true
+    }
+  ]
+}

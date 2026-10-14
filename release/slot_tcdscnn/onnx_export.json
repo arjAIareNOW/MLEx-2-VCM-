@@ -1,0 +1,51 @@
+{
+  "exported": true,
+  "opset": 17,
+  "onnx_file": "slot.onnx",
+  "onnx_bytes": 911752,
+  "onnx_sha256": "3f91ac71b2ef2f68da8a1a24cc0c8505e7a8a07c1780fd5ceedb9f6c6a6a7862",
+  "checkpoint_sha256": "cc75becbf4ca724a66f97a7f797614adeef84bbb8dfdb65494d22661ee681973",
+  "inputs": {
+    "log_mel": "float32 [B,1,64,T]",
+    "frame_lengths": "int64 [B]"
+  },
+  "output": "logits [B,18]",
+  "classes": [
+    "TIMER|10 seconds",
+    "TIMER|30 seconds",
+    "TIMER|1 minute",
+    "ALARM|6:00 AM",
+    "ALARM|8:00 AM",
+    "ALARM|9:00 PM",
+    "TEMPERATURE|18 degrees",
+    "TEMPERATURE|22 degrees",
+    "TEMPERATURE|26 degrees",
+    "BRIGHTNESS|20 percent",
+    "BRIGHTNESS|60 percent",
+    "BRIGHTNESS|100 percent",
+    "COLOR|Red",
+    "COLOR|Blue",
+    "COLOR|Green",
+    "CREATE_REMINDER|Drink water",
+    "CREATE_REMINDER|Study",
+    "CREATE_REMINDER|Exercise"
+  ],
+  "onnxruntime_version": "1.19.2",
+  "pytorch_vs_onnxruntime": [
+    {
+      "frames": 41,
+      "max_abs_logit_diff": 9.5367431640625e-07,
+      "same_argmax": true
+    },
+    {
+      "frames": 173,
+      "max_abs_logit_diff": 1.430511474609375e-06,
+      "same_argmax": true
+    },
+    {
+      "frames": 501,
+      "max_abs_logit_diff": 8.344650268554688e-07,
+      "same_argmax": true
+    }
+  ]
+}

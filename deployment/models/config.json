@@ -1,0 +1,113 @@
+{
+ "bundle": "ME2 voice-controlled smart device: wake word + intent + slot (ONNX, CPU)",
+ "sample_rate": 16000,
+ "wake": {
+  "name": "Hello / Hi Elkit (openWakeWord embeddings + Elkit head)",
+  "onnx": "hello_elkit_oww_head.onnx",
+  "sha256": "339a0088f680b5b1ceedf5c6d87e50a3730635696e3c6f8a78eb1812ed018f9f",
+  "melspectrogram_onnx": "melspectrogram.onnx",
+  "melspectrogram_sha256": "ba2b0e0f8b7b875369a2c89cb13360ff53bac436f2895cced9f479fa65eb176f",
+  "embedding_onnx": "embedding_model.onnx",
+  "embedding_sha256": "70d164290c1d095d1d4ee149bc5e00543250a7316b59f31d056cff7bd3075c1f",
+  "frontend": "openWakeWord v0.5.1 melspectrogram + embedding models (Apache-2.0), frozen; mel input = audio * 32767, mel/10 + 2",
+  "input": "embeddings float32 [N,16,96] = 16 openWakeWord embeddings (one per 80 ms) = 2 s of audio",
+  "output": "logit [N] -> sigmoid = P(Hello Elkit or Hi Elkit)",
+  "streaming_threshold": 0.757475,
+  "threshold_rule": "chosen on DEV voices: <= 0.1 % false wakes on unrelated real speech (MSWC words + ai231 commands); sound-alike phrases ('Hi, el kid') are allowed to wake it",
+  "alternative_thresholds": {
+   "fewer_false_wakes": 0.880038,
+   "strict_soundalikes_1pct": 0.981986
+  },
+  "alternative_rules": {
+   "fewer_false_wakes": "<= 2 of 90 DEV real ai231 commands wake it",
+   "strict_soundalikes_1pct": "<= 1 % of DEV sound-alike phrases wake it (catches far fewer)"
+  },
+  "stride_ms": 80,
+  "consecutive_hits": 1,
+  "cooldown_ms": 1000,
+  "training_data": "TTS (Piper + Meta MMS voices) 'Hello/Hi Elkit' + confusables, real MSWC words / MLS 'el' splices, ai231 + Speech Commands negatives, DEMAND training rooms"
+ },
+ "wake_backup": {
+  "input": "log_mel float32 [N,1,40,97] (marvin_engine.features.wake_features of 1 s windows)",
+  "output": "logit [N,1] -> sigmoid = P(MARVIN)",
+  "streaming_threshold": 0.9094067811965942,
+  "clip_threshold": 0.8334565162658691,
+  "stride_ms": 100,
+  "consecutive_hits": 2,
+  "cooldown_ms": 1000,
+  "training_data": "Speech Commands v0.02 (official splits) + DEMAND + Speech Commands background noise",
+  "name": "Marvin (backup wake word)",
+  "onnx": "marvin_v4_backup.onnx",
+  "sha256": "663bc8d3ff4efdb880d2cbd1f0926679688bc9a5ad8b6e268e32d1de49f4f544"
+ },
+ "intent": {
+  "name": "Intent Conformer (d_model 96, 4 layers, 644k parameters)",
+  "onnx": "intent_conformer.onnx",
+  "sha256": "2b99bc2eb2bc0b238815d5f825030b3402236ff11593c8e7bb284eefbf215c55",
+  "classes": [
+   "ALARM",
+   "BRIGHTNESS",
+   "CALL",
+   "COLOR",
+   "CREATE_REMINDER",
+   "LIGHT_OFF",
+   "LIGHT_ON",
+   "LIST_REMINDERS",
+   "MESSAGE",
+   "NEXT",
+   "PAUSE",
+   "PLAY_MUSIC",
+   "STOP",
+   "TEMPERATURE",
+   "TIME",
+   "TIMER",
+   "VOLUME_DOWN",
+   "VOLUME_UP",
+   "WEATHER"
+  ],
+  "input": "log_mel float32 [1,1,64,T] + frame_lengths int64 [1] (vcm_engine.features.command_features, <= 5 s)",
+  "reject_threshold": 0.693394809961319,
+  "reject_rule": "max softmax below threshold -> not a known command (keeps 95 % of in-scope VALIDATION commands)"
+ },
+ "slot": {
+  "name": "Slot TC-DSCNN (18 values, 3 per slotted intent)",
+  "onnx": "slot_tcdscnn.onnx",
+  "sha256": "3f91ac71b2ef2f68da8a1a24cc0c8505e7a8a07c1780fd5ceedb9f6c6a6a7862",
+  "classes": [
+   "TIMER|10 seconds",
+   "TIMER|30 seconds",
+   "TIMER|1 minute",
+   "ALARM|6:00 AM",
+   "ALARM|8:00 AM",
+   "ALARM|9:00 PM",
+   "TEMPERATURE|18 degrees",
+   "TEMPERATURE|22 degrees",
+   "TEMPERATURE|26 degrees",
+   "BRIGHTNESS|20 percent",
+   "BRIGHTNESS|60 percent",
+   "BRIGHTNESS|100 percent",
+   "COLOR|Red",
+   "COLOR|Blue",
+   "COLOR|Green",
+   "CREATE_REMINDER|Drink water",
+   "CREATE_REMINDER|Study",
+   "CREATE_REMINDER|Exercise"
+  ],
+  "slot_names": {
+   "TIMER": "duration",
+   "ALARM": "time",
+   "TEMPERATURE": "degrees",
+   "BRIGHTNESS": "percent",
+   "COLOR": "color",
+   "CREATE_REMINDER": "reminder"
+  },
+  "rule": "only the 3 values of the predicted intent compete (softmax over those 3 logits)",
+  "input": "log_mel float32 [1,1,64,T] + frame_lengths int64 [1] (vcm_engine.features.command_features, <= 5 s)"
+ },
+ "runtime": {
+  "vad_rms": 0.012,
+  "vad_silence_s": 0.55,
+  "max_command_s": 5.0,
+  "wake_guard_s": 0.25
+ }
+}

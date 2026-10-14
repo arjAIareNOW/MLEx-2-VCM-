@@ -1,0 +1,11 @@
+# Training / evaluation / ONNX export of the intent and slot models (Python 3.9-3.11, CUDA 12.4 wheels).
+# Exact environment used: env/freeze/train-py3.9.txt
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.5.1+cu124
+torchaudio==2.5.1+cu124
+numpy==1.26.4
+pyarrow==17.0.0
+soundfile==0.13.1
+onnx==1.19.1
+onnxruntime==1.19.2
+huggingface_hub==1.8.0

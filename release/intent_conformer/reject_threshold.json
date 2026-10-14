@@ -1,0 +1,28 @@
+{
+  "rule": "5th percentile of in-scope validation max-softmax (accept 95% of validation commands)",
+  "threshold": 0.693394809961319,
+  "validation": {
+    "in_scope_clips": 1392,
+    "oos_clips": 18,
+    "in_scope_accept_rate": 0.9497126436781609,
+    "in_scope_accuracy_all": 0.9827586206896551,
+    "in_scope_correct_and_accepted": 0.9418103448275862,
+    "oos_false_accept_rate": 0.3333333333333333
+  },
+  "test": {
+    "in_scope_clips": 4367,
+    "oos_clips": 76,
+    "in_scope_accept_rate": 0.9633615754522555,
+    "in_scope_accuracy_all": 0.980077856652164,
+    "in_scope_correct_and_accepted": 0.9546599496221663,
+    "oos_false_accept_rate": 0.3157894736842105
+  },
+  "holdout": {
+    "in_scope_clips": 186,
+    "oos_clips": 16,
+    "in_scope_accept_rate": 0.967741935483871,
+    "in_scope_accuracy_all": 0.9838709677419355,
+    "in_scope_correct_and_accepted": 0.9623655913978495,
+    "oos_false_accept_rate": 0.3125
+  }
+}

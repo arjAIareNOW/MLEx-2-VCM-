@@ -1,0 +1,7 @@
+# Wake-word data tools: WORLD vocoder (child / elderly voices), resampling, splicing (Python 3.11).
+# Exact environment used: env/freeze/audio-py3.11.txt
+numpy==2.4.6
+pyarrow==25.0.1
+pyworld==0.3.5
+scipy==1.17.1
+soundfile==0.14.0

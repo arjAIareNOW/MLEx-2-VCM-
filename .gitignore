@@ -1,0 +1,10 @@
+# downloaded / built data and local runs (see data_prep/ and reproduce.sh)
+data/
+runs/
+logs/
+deployment/data/
+deployment/results/
+.venv*/
+__pycache__/
+*.pyc
+.cache/

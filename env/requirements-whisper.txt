@@ -1,0 +1,10 @@
+# Optional: re-run the Whisper large-v3-turbo label audit / word timestamps (GPU). Frozen results are in artifacts/whisper.
+# Exact environment used: env/freeze/whisper-py3.9.txt
+faster-whisper==1.2.1
+ctranslate2==4.8.2
+rapidfuzz==3.13.0
+numpy==2.0.2
+pyarrow==21.0.0
+soundfile==0.13.1
+nvidia-cublas-cu12==12.9.2.10
+nvidia-cudnn-cu12==9.27.0.42

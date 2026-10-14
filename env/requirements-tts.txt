@@ -1,0 +1,9 @@
+# Wake-word TTS generation: Piper voices + Meta MMS-TTS (Python 3.11, CPU).
+# Exact environment used: env/freeze/tts-py3.11.txt
+piper-tts==1.8.0
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1+cpu
+transformers==5.18.0
+numpy==2.4.6
+soundfile==0.14.0
+onnxruntime==1.30.0
