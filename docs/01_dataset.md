@@ -7,8 +7,8 @@ revision and checks every file against `artifacts/checksums/ai231.sha256` (the d
 to reproduce these numbers).
 
 - **License:** `other` on the dataset card. Research and education use only. Some parts (e.g. `supplemental_fil`) do not
-  record speaker consent or license; see the dataset card. **There is no DOI**; cite the Hugging Face repository and the
-  revision above.
+  record speaker consent or license; see the dataset card. **DOI: [10.57967/hf/10723](https://doi.org/10.57967/hf/10723)**;
+  cite the DOI together with the revision above.
 - **Audio:** 16 kHz, mono, 16-bit PCM WAV stored inside Parquet files.
 
 ## What is in it

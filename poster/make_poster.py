@@ -110,7 +110,7 @@ x0, lw_, vw = 0.55, 3.2, W - 0.55 - 0.55 - 3.2
 y, size, pad = 1.5, 13.5, 0.13
 rows = [["GitHub repository", "github.com/arjAIareNOW/MLEx-2-VCM- — public, MIT (code)"],
         ["Dataset location", "Hugging Face airimonda/ai231-me2-voice-commands @ 5abbe539a46b9b26ff24e73d2860d1698d44e81f; "
-                             "licence \"other\" (research/education); no DOI yet"],
+                             "licence \"other\" (research/education); DOI 10.57967/hf/10723"],
         ["A100 cluster", "uperdfi-a100gpu0, 1 × A100 80 GB, 29.8 min job (26.7 min training), seeds 23102 (training) / 23101 (split)"],
         ["Model weights", "release/ and deployment/models/ in the repository; research/education use (ai231 terms); "
                           "Elkit head non-commercial (MMS-TTS data)"]]
@@ -128,7 +128,7 @@ ax.plot([x0 + lw_, x0 + lw_], [top, y], color="#ecd9bd", lw=0.9)
 y = heading(ax, 0.45, y + 0.4, "What the reviewer will look for", 19)
 table(ax, 0.45, y, [0.55, 5.0, W - 0.9 - 5.55], ["#", "Item", "Status"], [
     ["1", "Repo public, one-command reproduction", "done: bash reproduce.sh (Slurm) or --local; fresh-clone run checked on the build cluster"],
-    ["2", "Dataset licensed and citable (DOI)", "partial: licensed, pinned to a revision with SHA-256 checksums; no DOI"],
+    ["2", "Dataset licensed and citable (DOI)", "done: licensed (\"other\", research/education), DOI 10.57967/hf/10723, pinned revision + SHA-256"],
     ["3", "Training logs + final checkpoint committed", "done: release/intent_conformer/, release/slot_conformer/ (best.pt, ONNX, config, history, log)"],
     ["4", "Pi latency reproduced by the posted script", "done: deployment/benchmark_pi.py on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class vcm-benchmark run pending"],
     ["5", "Held-out test set, unseen speakers", "done: test (104 speakers) and holdout (4 speakers) never seen in training or validation"],

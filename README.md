@@ -88,7 +88,7 @@ POSTER.md       model card
 | What | Terms |
 |---|---|
 | Code in this repository | MIT ([LICENSE](LICENSE)) |
-| ai231 dataset ([airimonda/ai231-me2-voice-commands](https://huggingface.co/datasets/airimonda/ai231-me2-voice-commands) @ `5abbe539`) | `other`: research and education only; not redistributed here, downloaded by script; no DOI |
+| ai231 dataset ([airimonda/ai231-me2-voice-commands](https://huggingface.co/datasets/airimonda/ai231-me2-voice-commands) @ `5abbe539`) | `other`: research and education only; not redistributed here, downloaded by script; DOI [10.57967/hf/10723](https://doi.org/10.57967/hf/10723) |
 | Released intent / slot weights (`release/`, `deployment/models/`) | trained on ai231: research and education use only |
 | Elkit wake-word head | trained partly on Meta MMS-TTS audio (CC-BY-NC-4.0): non-commercial |
 | openWakeWord front end (`melspectrogram.onnx`, `embedding_model.onnx`) | Apache-2.0 (openWakeWord v0.5.1) |

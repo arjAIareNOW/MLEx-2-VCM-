@@ -24,7 +24,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 
 | Item | Value |
 |---|---|
-| Source | [ai231 ME2 voice commands](https://huggingface.co/datasets/airimonda/ai231-me2-voice-commands) @ `5abbe539` (Hugging Face; licence "other", research/education; no DOI) |
+| Source | [ai231 ME2 voice commands](https://huggingface.co/datasets/airimonda/ai231-me2-voice-commands) @ `5abbe539` (Hugging Face; licence "other", research/education; DOI [10.57967/hf/10723](https://doi.org/10.57967/hf/10723)) |
 | Hours / utts | intent training **14.8 h / 25,620** clips (+ 0.73 h / 1,392 validation); test 4,367 · holdout 186 |
 | Speakers | **246** training speakers/voices, 43 validation, 104 test, 4 holdout (all disjoint) |
 | Labels | **19 intents** · **18 slots** (3 values × 6 slotted intents) |
@@ -54,7 +54,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 | | |
 |---|---|
 | GitHub repository | [github.com/arjAIareNOW/MLEx-2-VCM-](https://github.com/arjAIareNOW/MLEx-2-VCM-) — public, MIT (code) |
-| Dataset location | Hugging Face `airimonda/ai231-me2-voice-commands`, revision `5abbe539a46b9b26ff24e73d2860d1698d44e81f`; licence "other" (research/education); no DOI yet |
+| Dataset location | Hugging Face `airimonda/ai231-me2-voice-commands`, revision `5abbe539a46b9b26ff24e73d2860d1698d44e81f`; licence "other" (research/education); DOI 10.57967/hf/10723 |
 | A100 cluster | uperdfi-a100gpu0, 1 × A100 80 GB, 29.8 min job (26.7 min training), seeds 23102 (training) / 23101 (split) |
 | Model weights | `release/` and `deployment/models/` in the repository; research/education use (ai231 terms); Elkit head non-commercial (MMS-TTS data) |
 
@@ -63,7 +63,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 | # | Item | Status |
 |---|---|---|
 | 1 | Repo public, one-command reproduction | done: `bash reproduce.sh` (Slurm) or `bash reproduce.sh --local`; fresh-clone run checked 2026-10-14 on the build cluster (RTX A6000, intent + slot) |
-| 2 | Dataset licensed and citable (DOI) | partial: licensed and pinned to a revision with SHA-256 checksums; no DOI |
+| 2 | Dataset licensed and citable (DOI) | done: licence "other" (research/education), DOI 10.57967/hf/10723, pinned to a revision with SHA-256 checksums |
 | 3 | Training logs + final checkpoint committed | done: `release/intent_conformer/` (best.pt, ONNX, config, history, log), `release/slot_conformer/` |
 | 4 | Pi latency reproduced by the posted script | done: `deployment/benchmark_pi.py` on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class `vcm-benchmark` run pending |
 | 5 | Held-out test set, unseen speakers | done: test (104 speakers) and holdout (4 speakers) never seen in training or validation |
