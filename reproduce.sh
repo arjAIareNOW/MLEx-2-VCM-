@@ -26,7 +26,7 @@ STEPS=(
   "download|cpu|$PY data_prep/download_data.py"
   "build_data|cpu|$PY data_prep/build_filtered.py && $PY data_prep/build_ai231_v2.py && $PY data_prep/numerals_subset.py"
   "train_intent|gpu|$PY -u -W ignore -m vcm.train_intent --output $RUNS/intent_conformer --seed $SEED --workers 4 --cpu-threads 1 && $PY -W ignore -m vcm.export_onnx intent $RUNS/intent_conformer && $PY -W ignore -m vcm.reject_threshold $RUNS/intent_conformer"
-  "train_slot|gpu|$PY -u -W ignore -m vcm.train_slot --output $RUNS/slot_tcdscnn --workers 4 && $PY -W ignore -m vcm.export_onnx slot $RUNS/slot_tcdscnn"
+  "train_slot|gpu|$PY -u -W ignore -m vcm.train_slot --output $RUNS/slot_conformer --workers 4 && $PY -W ignore -m vcm.export_onnx slot $RUNS/slot_conformer"
   "summary|cpu|$PY tools/summarize_runs.py $RUNS"
 )
 

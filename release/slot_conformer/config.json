@@ -1,0 +1,186 @@
+{
+  "model": "SlotConformer",
+  "classes": [
+    "TIMER|10 seconds",
+    "TIMER|30 seconds",
+    "TIMER|1 minute",
+    "ALARM|6:00 AM",
+    "ALARM|8:00 AM",
+    "ALARM|9:00 PM",
+    "TEMPERATURE|18 degrees",
+    "TEMPERATURE|22 degrees",
+    "TEMPERATURE|26 degrees",
+    "BRIGHTNESS|20 percent",
+    "BRIGHTNESS|60 percent",
+    "BRIGHTNESS|100 percent",
+    "COLOR|Red",
+    "COLOR|Blue",
+    "COLOR|Green",
+    "CREATE_REMINDER|Drink water",
+    "CREATE_REMINDER|Study",
+    "CREATE_REMINDER|Exercise"
+  ],
+  "seed": 23101,
+  "train_items": 19160,
+  "val_items": 806,
+  "numerals_items": 7000,
+  "timings": 12918,
+  "args": {
+    "data": "$VCM_DATA/ai231_filtered_lenient",
+    "ai231": "$VCM_DATA/ai231",
+    "numerals": "$VCM_DATA/numerals_subset.parquet",
+    "timings": "artifacts/whisper/slot_word_timestamps.jsonl.gz",
+    "output": "runs/slot_conformer_a100_65703",
+    "seed": 23101,
+    "epochs": 150,
+    "select_window": 5,
+    "warmup_epochs": 5,
+    "batch_size": 128,
+    "lr": 0.002,
+    "weight_decay": 0.05,
+    "label_smoothing": 0.1,
+    "ema_decay": 0.999,
+    "workers": 4,
+    "gpu_fraction": 0.5,
+    "smoke": false,
+    "arch": "conformer",
+    "width": null,
+    "human_weight": 1.0
+  },
+  "parameter_count": 643506,
+  "selection": "validation mean(human acc, synthetic acc); better of raw/EMA; centre of the best 5-epoch moving average",
+  "demand_train_envs": [
+    "DKITCHEN",
+    "DWASHING",
+    "NFIELD",
+    "NPARK",
+    "NRIVER",
+    "OHALLWAY",
+    "OOFFICE",
+    "PRESTO",
+    "PSTATION",
+    "SPSQUARE",
+    "TBUS",
+    "TCAR",
+    "TMETRO"
+  ],
+  "demand_eval_envs": [
+    "DLIVING",
+    "OMEETING",
+    "PCAFETER",
+    "STRAFFIC"
+  ],
+  "steps_per_epoch": 149,
+  "node": "uperdfi-a100gpu0",
+  "slurm_job_id": "65703",
+  "gpu": "NVIDIA A100 80GB PCIe",
+  "environment": {
+    "slurm_job_id": "65703",
+    "hostname": "uperdfi-a100gpu0.uperdfi.internal",
+    "gpu": {
+      "model": "NVIDIA A100 80GB PCIe",
+      "count": 1,
+      "memory_bytes": 85093777408,
+      "cuda_version": "12.4"
+    },
+    "python_version": "3.9.25",
+    "pytorch_version": "2.5.1+cu124",
+    "torchaudio_version": "2.5.1+cu124",
+    "pyarrow_version": "17.0.0",
+    "numpy_version": "1.26.4",
+    "platform": "Linux-5.14.0-687.25.1.el9_8.x86_64-x86_64-with-glibc2.34"
+  },
+  "status": "DONE",
+  "best_epoch": 123,
+  "best_epoch_smoothed_validation": 0.9849093231162197,
+  "epochs_completed": 150,
+  "optimizer_steps": 22350,
+  "training_seconds": 1487.1517782211304,
+  "checkpoint_sha256": "d6ead0b2e95ab7ea3947395a9c875b443d09c0c488194c752d751b26f1b17103",
+  "validation": {
+    "n": 806,
+    "accuracy": 0.9962779156327544,
+    "macro_f1": 0.9961364261466861,
+    "human_accuracy": 0.9629629629629629,
+    "synthetic_accuracy": 1.0,
+    "n_human": 81,
+    "selection_score": 0.9814814814814814
+  },
+  "final": {
+    "test/clean": {
+      "n": 2538,
+      "accuracy": 0.9925137903861309,
+      "macro_f1": 0.9924988826520162,
+      "human_accuracy": 0.9343629343629344,
+      "synthetic_accuracy": 0.9991224221149627,
+      "n_human": 259,
+      "selection_score": 0.9667426782389485
+    },
+    "test/demand_5db": {
+      "n": 2538,
+      "accuracy": 0.9846335697399528,
+      "macro_f1": 0.9845989246067197,
+      "human_accuracy": 0.8725868725868726,
+      "synthetic_accuracy": 0.9973672663448881,
+      "n_human": 259,
+      "selection_score": 0.9349770694658803
+    },
+    "test/demand_10db": {
+      "n": 2538,
+      "accuracy": 0.9893617021276596,
+      "macro_f1": 0.9893517740032317,
+      "human_accuracy": 0.9073359073359073,
+      "synthetic_accuracy": 0.998683633172444,
+      "n_human": 259,
+      "selection_score": 0.9530097702541757
+    },
+    "test/demand_20db": {
+      "n": 2538,
+      "accuracy": 0.9925137903861309,
+      "macro_f1": 0.992496200094797,
+      "human_accuracy": 0.9343629343629344,
+      "synthetic_accuracy": 0.9991224221149627,
+      "n_human": 259,
+      "selection_score": 0.9667426782389485
+    },
+    "holdout/clean": {
+      "n": 108,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "human_accuracy": 1.0,
+      "synthetic_accuracy": 1.0,
+      "n_human": 47,
+      "selection_score": 1.0
+    },
+    "holdout/demand_5db": {
+      "n": 108,
+      "accuracy": 0.9722222222222222,
+      "macro_f1": 0.9720279720279721,
+      "human_accuracy": 0.9574468085106383,
+      "synthetic_accuracy": 0.9836065573770492,
+      "n_human": 47,
+      "selection_score": 0.9705266829438437
+    },
+    "holdout/demand_10db": {
+      "n": 108,
+      "accuracy": 0.9814814814814815,
+      "macro_f1": 0.9813519813519815,
+      "human_accuracy": 0.9574468085106383,
+      "synthetic_accuracy": 1.0,
+      "n_human": 47,
+      "selection_score": 0.9787234042553192
+    },
+    "holdout/demand_20db": {
+      "n": 108,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "human_accuracy": 1.0,
+      "synthetic_accuracy": 1.0,
+      "n_human": 47,
+      "selection_score": 1.0
+    },
+    "test/noise_mean": {
+      "accuracy": 0.9888363540845811
+    }
+  }
+}

@@ -1,4 +1,4 @@
-"""Compare reproduced runs (RUNS/intent_conformer, RUNS/slot_tcdscnn) with the released models in release/.
+"""Compare reproduced runs (RUNS/intent_conformer, RUNS/slot_conformer) with the released models in release/.
 
 GPU training is not bit-exact (cuDNN autotuning, bf16), so a reproduction should land close to the released numbers,
 not on them. Measured spread of the intent recipe: the same seed on an A6000 and on an A100 gave validation accuracy
@@ -42,5 +42,5 @@ def table(name, ref, new):
 if __name__ == "__main__":
     runs = Path(sys.argv[1] if len(sys.argv) > 1 else REPO / "runs")
     md = "# Reproduction summary\n\n" + table("Intent Conformer", intent(REPO / "release/intent_conformer"), intent(runs / "intent_conformer")) + "\n" \
-         + table("Slot TC-DSCNN", slot(REPO / "release/slot_tcdscnn"), slot(runs / "slot_tcdscnn"))
+         + table("Slot Conformer", slot(REPO / "release/slot_conformer"), slot(runs / "slot_conformer"))
     print(md); runs.mkdir(parents=True, exist_ok=True); (runs / "summary.md").write_text(md)

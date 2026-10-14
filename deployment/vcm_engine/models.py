@@ -3,7 +3,7 @@
 WakeWord           "Hello / Hi Elkit"   openWakeWord embeddings (frozen) + Elkit head; 2 s window every 80 ms
 MarvinWakeWord     "Marvin" (backup)    1 s log-mel window every 100 ms (use when Elkit is not suitable)
 CommandRecognizer  intent Conformer     19 intents, out-of-scope reject threshold
-                   slot TC-DSCNN        18 slot values; only the 3 values of the predicted intent compete
+                   slot Conformer       18 slot values; only the 3 values of the predicted intent compete
 """
 from __future__ import annotations
 

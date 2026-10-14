@@ -57,7 +57,7 @@ def main():
         raise FileExistsError(f"Refusing to overwrite {onnx_path}")
     ck = torch.load(run / "best.pt", map_location="cpu", weights_only=True)
     cfg = ck["model_config"]
-    if kind == "intent":
+    if kind == "intent" or cfg.get("arch") == "conformer":  # Conformer slot model: same graph as intent, 18 outputs
         reference, model = load_intent(ck), load_intent(ck)
         model.forward = types.MethodType(conformer_batch1_forward, model)
         for layer in model.encoder.conformer_layers:

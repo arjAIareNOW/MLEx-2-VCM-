@@ -33,7 +33,7 @@ from .augment import WaveformAugmentor, load_noise_dir, spec_augment
 from .common import AI231, ARTIFACTS, CLASSES, DATA_ROOT, DEMAND, SPEECH_NOISE, collect_environment, sha256_file
 from .data import check_validation_speakers, eligible, read
 from .features import LogMel, decode_wav
-from .models import SlotTCDSCNN
+from .models import IntentConformer, SlotTCDSCNN
 from .train_intent import lr_at
 
 WINDOW = 80_000
@@ -219,6 +219,8 @@ def parse():
     p.add_argument("--lr", type=float, default=2e-3); p.add_argument("--weight-decay", type=float, default=0.05)
     p.add_argument("--label-smoothing", type=float, default=0.1); p.add_argument("--ema-decay", type=float, default=0.999)
     p.add_argument("--workers", type=int, default=4); p.add_argument("--gpu-fraction", type=float, default=0.5)
+    p.add_argument("--arch", choices=("conformer", "tcdscnn"), default="conformer",
+                   help="conformer = released slot model (same network as the intent model, 18 outputs); tcdscnn = earlier slot model")
     p.add_argument("--smoke", action="store_true")
     return p.parse_args()
 
@@ -265,13 +267,14 @@ def main():
     tl = mk(SlotDataset(train_items, n_out, sources, True, augmentor, timings), True)
     vl = mk(SlotDataset(val_items, n_out, sources), False)
 
-    model = SlotTCDSCNN(n_out, 0.30, 128).to(device)
+    width = 96 if a.arch == "conformer" else 128
+    model = (IntentConformer(n_out, 0.30, width) if a.arch == "conformer" else SlotTCDSCNN(n_out, 0.30, width)).to(device)
     ema = AveragedModel(model, use_buffers=True, avg_fn=lambda av, cur, n: av * min(a.ema_decay, (1 + int(n)) / (10 + int(n))) + cur * (1 - min(a.ema_decay, (1 + int(n)) / (10 + int(n)))))
     decay = [p for p in model.parameters() if p.ndim > 1]; no_decay = [p for p in model.parameters() if p.ndim <= 1]
     opt = torch.optim.AdamW([{"params": decay, "weight_decay": a.weight_decay}, {"params": no_decay, "weight_decay": 0.0}], lr=a.lr)
     total, warm = a.epochs * len(tl), a.warmup_epochs * len(tl)
     n_params = sum(p.numel() for p in model.parameters())
-    config = {"model": "SlotTCDSCNN", "classes": classes, "seed": a.seed, "train_items": len(train_items), "val_items": len(val_items),
+    config = {"model": "SlotConformer" if a.arch == "conformer" else "SlotTCDSCNN", "classes": classes, "seed": a.seed, "train_items": len(train_items), "val_items": len(val_items),
               "numerals_items": sum(it[0] == "num" for it in train_items), "timings": len(timings),
               "args": {k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()}, "parameter_count": n_params,
               "selection": f"validation mean(human acc, synthetic acc); better of raw/EMA; centre of the best {a.select_window}-epoch moving average",
@@ -303,7 +306,7 @@ def main():
                **{"val_" + k: x for k, x in v.items()}, "seconds": time.time() - t0}
         history.append(row); print(json.dumps(row), flush=True)
         torch.save({"model_state": net.state_dict(), "weights": chosen, "epoch": epoch,
-                    "model_config": {"num_classes": n_out, "dropout": 0.30, "width": 128}, "classes": classes,
+                    "model_config": {"num_classes": n_out, "dropout": 0.30, "width": width, "arch": a.arch}, "classes": classes,
                     "validation": v}, ep_dir / f"e{epoch:03d}.pt")
     W = min(a.select_window, len(history))
     smooth = np.convolve([r["val_selection_score"] for r in history], np.ones(W) / W, "valid")

@@ -10,13 +10,13 @@
 Mic · 16 kHz → log-mel 64 × ≤501 (10 ms hop, ≤ 5 s)
 Wake word "Hello / Hi Elkit": frozen openWakeWord embedding → Elkit head (2 s window, every 80 ms)   [Marvin = backup]
 Conformer encoder × 4 · 96-dim  (non-causal; runs once per command after the wake word, so no KV cache / streaming)
-Intent head (19 + reject)         Slot head (separate 203 k TC-DSCNN, 18 values, 3 per slotted intent)
+Intent head (19 + reject)         Slot head (separate 644 k Conformer, 18 values, 3 per slotted intent)
 Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 GB), ONNX Runtime, CPU
 ```
 
 | Item | Value |
 |---|---|
-| Parameters / weights | intent **0.64 M · 2.7 MB** (ONNX) · slot 0.20 M · 0.9 MB · wake head 0.21 M · 0.9 MB (+ frozen 0.6 M front end, 2.4 MB) |
+| Parameters / weights | intent **0.64 M · 2.7 MB** (ONNX) · slot 0.64 M · 2.7 MB · wake head 0.21 M · 0.9 MB (+ frozen 0.6 M front end, 2.4 MB) |
 
 ## Dataset
 
@@ -62,7 +62,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 |---|---|---|
 | 1 | Repo public, one-command reproduction | `bash reproduce.sh` (Slurm) or `bash reproduce.sh --local`; run end to end from a fresh clone before release |
 | 2 | Dataset licensed and citable (DOI) | partial: licensed and pinned to a revision with SHA-256 checksums; no DOI |
-| 3 | Training logs + final checkpoint committed | done: `release/intent_conformer/` (best.pt, ONNX, config, history, log), `release/slot_tcdscnn/` |
+| 3 | Training logs + final checkpoint committed | done: `release/intent_conformer/` (best.pt, ONNX, config, history, log), `release/slot_conformer/` |
 | 4 | Pi latency reproduced by the posted script | `deployment/benchmark_pi.py` + live `vcm-benchmark` run (results in `deployment/results/`) |
 | 5 | Held-out test set, unseen speakers | done: test (104 speakers) and holdout (4 speakers) never seen in training or validation |
 | 6 | Baseline of comparable size compared | done: CNN + BiGRU 405 k params, test 97.41 % vs Conformer 98.01 % (same data and recipe) |

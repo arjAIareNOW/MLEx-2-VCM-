@@ -27,8 +27,10 @@ This repository shows **how every model was built, from the raw dataset to the P
 |---|---|
 | Intent accuracy, test (4,367 clips, 104 unseen speakers) | **98.01 %** (macro-F1 0.971) |
 | Intent accuracy, holdout (186 clips, Pi benchmark set) | **98.39 %** |
-| Slot accuracy, test / holdout | **98.50 %** / 100 % |
+| Slot accuracy, test / holdout | **99.25 %** / 100 % |
+| Whole command (intent and slot right), test / holdout | **97.60 %** / 98.39 % |
 | Intent model | Conformer, 4 × 96-dim, **644 k parameters**, 2.7 MB ONNX, trained in 27 min on 1 × A100 |
+| Slot model | same Conformer with 18 outputs, 644 k parameters, 2.7 MB ONNX, trained in 25 min on 1 × A100 |
 | Wake word "Hello / Hi Elkit", test (0.886 × 2) | **86.6 %** generated voices, **65.6 %** real-speaker phrases; false wakes on **1.5 %** of real sentences, 0 / 6,194 real words ([docs/03](docs/03_wakeword_elkit.md)) |
 
 Every choice (epoch, weights, run, thresholds) was made on **validation speakers only**; test and holdout were scored
@@ -56,7 +58,7 @@ bash reproduce.sh --local           # same, without Slurm, on one CUDA GPU
 
 `reproduce.sh` downloads the pinned data (SHA-256 checked), rebuilds the training sets, trains both models, exports
 ONNX, picks the reject threshold and writes `runs/summary.md` comparing your numbers with the released ones.
-Time: ~30 min (intent, A100) + ~75 min (slot, A6000) of GPU, about 12 GB of disk.
+Time: ~30 min (intent, A100) + ~25 min (slot, A100) of GPU, about 12 GB of disk.
 The wake word has its own pipeline: `bash wakeword/reproduce_wakeword.sh` (CPU, several hours, ~60 GB).
 
 Checks done before release: the repo's training code gives **bit-identical** losses and weights to the code that
@@ -64,7 +66,8 @@ produced the released models (same seed, CPU), its ONNX export of the released c
 preprocessing scripts rebuild the training set byte for byte. GPU training is not bit-exact, so a fresh GPU run lands
 close to, not exactly on, the released numbers.
 
-Fresh-clone check (2026-10-14): `git clone` + `bash reproduce.sh` on the build cluster, both models on 1 × RTX A6000:
+Fresh-clone check (2026-10-14): `git clone` + `bash reproduce.sh` on the build cluster, both models on 1 × RTX A6000
+(done before the slot model changed: the slot rows are the earlier TC-DSCNN slot model, `release/slot_tcdscnn/`):
 
 | | released | reproduced |
 |---|---:|---:|

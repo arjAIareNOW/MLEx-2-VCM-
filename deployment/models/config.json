@@ -69,9 +69,9 @@
   "reject_rule": "max softmax below threshold -> not a known command (keeps 95 % of in-scope VALIDATION commands)"
  },
  "slot": {
-  "name": "Slot TC-DSCNN (18 values, 3 per slotted intent)",
-  "onnx": "slot_tcdscnn.onnx",
-  "sha256": "3f91ac71b2ef2f68da8a1a24cc0c8505e7a8a07c1780fd5ceedb9f6c6a6a7862",
+  "name": "Slot Conformer (d_model 96, 4 layers, 644k parameters, 18 values, 3 per slotted intent, job 65703)",
+  "onnx": "slot_conformer.onnx",
+  "sha256": "920c2e8549063913f07a1d3d64051653c182ba3c201c508dd52ca83d33057926",
   "classes": [
    "TIMER|10 seconds",
    "TIMER|30 seconds",

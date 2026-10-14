@@ -22,7 +22,7 @@ mic 16 kHz ─► wake word "Hello / Hi Elkit"  (every 80 ms, last 2 s of audio)
 | `models/hello_elkit_oww_head.onnx` | Elkit wake-word head ([03](03_wakeword_elkit.md)) |
 | `models/marvin_v4_backup.onnx` | **backup** wake word "Marvin" (`--wake marvin`) |
 | `models/intent_conformer.onnx` | intent model ([04](04_intent_model.md)) |
-| `models/slot_tcdscnn.onnx` | slot model ([05](05_slot_model.md)) |
+| `models/slot_conformer.onnx` | slot model ([05](05_slot_model.md)) |
 | `models/config.json` | thresholds, class lists, front-end settings, SHA-256 of every model |
 | `vcm_engine/` | the engine: audio, features (NumPy copy of the training front end), models, assistant loop, CLI |
 | `benchmark_pi.py` | offline Pi benchmark (accuracy + latency on the ai231 holdout) |
