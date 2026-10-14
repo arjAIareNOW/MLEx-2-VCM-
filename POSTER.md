@@ -4,6 +4,8 @@
 
 14 October 2026 · Arjay Arnao, AI231 ME2 · Model · Dataset · Training on A100 · Validation on Raspberry Pi 5
 
+Printable two-page version: [poster/poster.pdf](poster/poster.pdf) (drawn by `poster/make_poster.py`).
+
 ## Model
 
 ```
@@ -40,7 +42,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 
 | Item | Value |
 |---|---|
-| Keyword / intent acc | **86.6 %** generated voices, **65.6 %** real-speaker phrases (wake word, test, 0.886 × 2) / **98.39 %** (holdout, intent) |
+| Keyword / intent acc | **86.6 %** generated voices, **65.6 %** real-speaker phrases (wake word, test, 0.886 × 2) / **98.39 %** (holdout, intent) · whole command (intent + slot) **98.39 %** holdout, **97.60 %** test |
 | False-accept rate | wake word: **1.5 %** of real sentences, **0 / 6,194** real words, 1 / 89 real commands (test); intent out-of-scope: 31.6 % (test) |
 | Latency p95 / RTF | **36.9 ms** / **0.01** per command (log-mel + intent + slot, p50 18.8 ms) · wake word 70.0 ms per 80 ms step / 0.22 (Pi 5, 1 thread, 202 holdout clips) |
 | Runtime | onnxruntime · 1 thr |
@@ -63,6 +65,6 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 | 1 | Repo public, one-command reproduction | `bash reproduce.sh` (Slurm) or `bash reproduce.sh --local`; run end to end from a fresh clone before release |
 | 2 | Dataset licensed and citable (DOI) | partial: licensed and pinned to a revision with SHA-256 checksums; no DOI |
 | 3 | Training logs + final checkpoint committed | done: `release/intent_conformer/` (best.pt, ONNX, config, history, log), `release/slot_conformer/` |
-| 4 | Pi latency reproduced by the posted script | `deployment/benchmark_pi.py` + live `vcm-benchmark` run (results in `deployment/results/`) |
+| 4 | Pi latency reproduced by the posted script | done: `deployment/benchmark_pi.py` on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class `vcm-benchmark` run pending |
 | 5 | Held-out test set, unseen speakers | done: test (104 speakers) and holdout (4 speakers) never seen in training or validation |
 | 6 | Baseline of comparable size compared | done: CNN + BiGRU 405 k params, test 97.41 % vs Conformer 98.01 % (same data and recipe) |
