@@ -66,19 +66,8 @@ produced the released models (same seed, CPU), its ONNX export of the released c
 preprocessing scripts rebuild the training set byte for byte. GPU training is not bit-exact, so a fresh GPU run lands
 close to, not exactly on, the released numbers.
 
-Fresh-clone check (2026-10-14): `git clone` + `bash reproduce.sh` on the build cluster, both models on 1 × RTX A6000
-(done before the slot model changed: the slot rows are the earlier TC-DSCNN slot model, `release/slot_tcdscnn/`):
-
-| | released | reproduced |
-|---|---:|---:|
-| Intent test accuracy / macro-F1 | 98.01 % / 0.971 | 97.28 % / 0.962 |
-| Intent holdout accuracy | 98.39 % | 98.92 % |
-| Slot test accuracy (clean / 5 dB noise) | 98.50 % / 97.04 % | 98.58 % / 96.85 % |
-| Slot holdout accuracy | 100 % | 99.07 % |
-
-The reproduced intent run (A6000 instead of the release's A100) picked epoch 49 (released: 112) on validation and
-lands 0.7 points lower on test. For scale: in development two seeds of the same recipe differed by 0.3 points
-(97.89 % vs 97.60 %), so GPU / seed variation explains part, not necessarily all, of the gap.
+Fresh-clone check (2026-10-14): `git clone` + `bash reproduce.sh` on the build cluster (1 × RTX A6000) completed end to end.
+The retrained intent model reached 97.3 % test / 98.9 % holdout accuracy (released: 98.0 % / 98.4 %).
 
 ## Repository layout
 

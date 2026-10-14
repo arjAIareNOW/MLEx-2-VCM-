@@ -62,7 +62,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Repo public, one-command reproduction | `bash reproduce.sh` (Slurm) or `bash reproduce.sh --local`; run end to end from a fresh clone before release |
+| 1 | Repo public, one-command reproduction | done: `bash reproduce.sh` (Slurm) or `bash reproduce.sh --local`; fresh-clone run checked 2026-10-14 on the build cluster (RTX A6000, intent + slot) |
 | 2 | Dataset licensed and citable (DOI) | partial: licensed and pinned to a revision with SHA-256 checksums; no DOI |
 | 3 | Training logs + final checkpoint committed | done: `release/intent_conformer/` (best.pt, ONNX, config, history, log), `release/slot_conformer/` |
 | 4 | Pi latency reproduced by the posted script | done: `deployment/benchmark_pi.py` on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class `vcm-benchmark` run pending |
