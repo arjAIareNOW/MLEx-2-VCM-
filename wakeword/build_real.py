@@ -5,7 +5,7 @@
 Positive = real "hello" + real "el" (MLS) or "elk" (MSWC) + real "kit" (MSWC), each trimmed and loudness-matched, with
 0-100 ms / 0-30 ms gaps. Speakers are mostly MIXED inside a phrase (only 10 MSWC speakers said both hello and kit), so
 these are augmentation material, not natural utterances; on the eval side they are reported separately ("real_splice").
-Negatives = every other real word clip (kind "realneg" in training: its own share, see train_kws.py) (hello alone, kit alone, yellow, kid, ... + random words) and spliced hard
+Negatives = every other real word clip (kind "realneg" in training: its own share, see kws_data.py) (hello alone, kit alone, yellow, kid, ... + random words) and spliced hard
 negatives: hello + other word, hello + el + other word, other word + el + kit.
 
 HI ELKIT: MSWC has no "hi" (<3 letters) -> homophone "high" (selected_extra.csv); positives/hard negatives are made per
@@ -98,7 +98,7 @@ for split in SPLITS.values():
     cache.clear(); print(split, sum(r["split"] == split for r in rows), "rows", flush=True)
 
 idx = D / "index.csv"; old = [r for r in csv.DictReader(open(idx)) if not r["file"].startswith("real/")]  # idempotent
-if MODE == "train": idx = D / "index_real.csv"  # training: keep index.csv TTS-only (comparable with ELKORIS), real in a 2nd index
+if MODE == "train": idx = D / "index_real.csv"  # training: index.csv stays TTS-only, index_real.csv = TTS + real material (used for training)
 keys = list(old[0].keys())
 with open(idx, "w", newline="") as f:
     wr = csv.DictWriter(f, keys, extrasaction="ignore"); wr.writeheader(); wr.writerows(old + [{k: r.get(k, "") for k in keys} for r in rows])

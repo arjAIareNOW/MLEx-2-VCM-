@@ -47,7 +47,7 @@ for s in "${STEPS[@]}"; do
   [ "$name" = train_slot ] && dep=(-d "afterok:$build_id")
   [ "$name" = summary ] && dep=(-d "afterok:$intent_id:$prev")
   id=$(sbatch --parsable "${res[@]}" "${dep[@]}" -J "vcm-$name" -o "logs/$name-%j.out" \
-       --export=ALL,OMP_NUM_THREADS=1 --wrap "cd $PWD && $cmd")
+       --wrap "cd $PWD && export OMP_NUM_THREADS=1 && $cmd")  # (no --export=...: it breaks GPU jobs on some Slurm setups)
   echo "submitted $name: job $id"
   [ "$name" = build_data ] && build_id=$id
   [ "$name" = train_intent ] && intent_id=$id

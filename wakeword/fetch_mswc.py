@@ -1,6 +1,6 @@
 """Stream MSWC English opus shards from Hugging Face and keep only selected clips (no full download on disk).
 
-Kept: every clip (capped per word) of WORDS = wake-word parts + real-speech confusables for ELKORIS / HELLO ELKIT,
+Kept: every clip (capped per word) of WORDS = wake-word parts + real-speech confusables for HELLO / HI ELKIT,
 plus a seeded random sample of other words (real-speech negatives for false-wakes estimates).
 MSWC = Multilingual Spoken Words Corpus (MLCommons, CC-BY 4.0), 1 s word clips cut from Common Voice.
 Writes clips/<word>/<file>.opus and selected.csv (LINK, WORD, SPLIT, SPEAKER, GENDER, KIND).
