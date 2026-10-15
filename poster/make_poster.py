@@ -95,11 +95,17 @@ y = table(ax, R, y, [1.75, RW - 1.75], ["Item", "Value"], [
     ["Labels", "19 intents · 18 slots (3 values × 6 slotted intents)"],
 ])
 y = heading(ax, R, y + 0.18, "Training on the A100 cluster")
-table(ax, R, y, [1.75, RW - 1.75], ["Item", "Value"], [
+y = table(ax, R, y, [1.75, RW - 1.75], ["Item", "Value"], [
     ["Cluster", "1 × NVIDIA A100 80GB (uperdfi-a100gpu0), 26.7 min training (job 65672), seed 23102"],
     ["Objective", "cross-entropy, class-weighted, label smoothing 0.1, mixup (utterance classification, not CTC / attention)"],
     ["Optimiser", "AdamW lr 2e-3, wd 0.05, 5-epoch warm-up + cosine, batch 128, bf16, EMA"],
     ["Steps / loss", "24,720 steps (120 epochs, best epoch 112) / train 0.879 · validation 0.262"],
+])
+y = heading(ax, R, y + 0.18, "Live test on the Pi 5 (speaker → mic)")
+table(ax, R, y, [1.75, RW - 1.75], ["Item", "Value"], [
+    ["Intent / command", "91.1 % / 90.6 % · slot 99.0 % (202 clips)"],
+    ["Errors", "wrong 0.5 % · ignored 4.3 % · out-of-scope 9/16"],
+    ["Latency / RTF", "21 ms (p95 43 ms) / 0.008 · reply p95 1.21 s"],
 ])
 
 # ------------------------------------------------------------------ page 2: submission + reviewer checklist
@@ -130,7 +136,7 @@ table(ax, 0.45, y, [0.55, 5.0, W - 0.9 - 5.55], ["#", "Item", "Status"], [
     ["1", "Repo public, one-command reproduction", "done: bash reproduce.sh (Slurm) or --local; fresh-clone run checked on the build cluster"],
     ["2", "Dataset licensed and citable (DOI)", "done: licensed (\"other\", research/education), DOI 10.57967/hf/10723, pinned revision + SHA-256"],
     ["3", "Training logs + final checkpoint committed", "done: release/intent_conformer/, release/slot_conformer/ (best.pt, ONNX, config, history, log)"],
-    ["4", "Pi latency reproduced by the posted script", "done: deployment/benchmark_pi.py on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class vcm-benchmark run pending"],
+    ["4", "Pi latency reproduced by the posted script", "done: deployment/benchmark_pi.py on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class vcm-benchmark: 91.1 % intent, 1.21 s p95 response"],
     ["5", "Held-out test set, unseen speakers", "done: test (104 speakers) and holdout (4 speakers) never seen in training or validation"],
     ["6", "Baseline of comparable size compared", "done: CNN + BiGRU 405 k params, test 97.41 % vs Conformer 98.01 % (same data and recipe)"],
 ], size=13)

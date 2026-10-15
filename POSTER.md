@@ -47,6 +47,19 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 | Latency p95 / RTF | **36.9 ms** / **0.01** per command (log-mel + intent + slot, p50 18.8 ms) · wake word 70.0 ms per 80 ms step / 0.22 (Pi 5, 1 thread, 202 holdout clips) |
 | Runtime | onnxruntime · 1 thr |
 
+### Live test on the Pi 5 (speaker → mic)
+
+Class `vcm-benchmark`, 14 Oct 2026: the laptop plays the 202 holdout clips through its speaker, about 1 m from the Pi's
+USB microphone (58 min). Wake word bypassed and actions not carried out (ELKIT recognised and logged each command only),
+so slow actions could not affect later trials; the wake word is evaluated separately above.
+
+| Item | Value |
+|---|---|
+| Intent / command | **91.1 %** / **90.6 %** (real voices 86.5 %, synthetic 95.3 %; 95 % CI 86-94 %) · slot exact **99.0 %** |
+| Errors | wrong command fired **0.5 %** · command ignored 4.3 % · out-of-scope accepted 9 / 16 (56 %, 95 % CI 33-77 %) |
+| Latency / RTF | inference **20.8 ms** mean, 42.5 ms p95 / **0.008** · response p50 / p95 0.99 / 1.21 s (includes the end-of-speech wait) |
+| Pi load | 53.5 °C max, no throttling · ELKIT 5.7 % CPU, 157 MB RAM |
+
 ---
 
 ## To Be Submitted
@@ -65,6 +78,6 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 | 1 | Repo public, one-command reproduction | done: `bash reproduce.sh` (Slurm) or `bash reproduce.sh --local`; fresh-clone run checked 2026-10-14 on the build cluster (RTX A6000, intent + slot) |
 | 2 | Dataset licensed and citable (DOI) | done: licence "other" (research/education), DOI 10.57967/hf/10723, pinned to a revision with SHA-256 checksums |
 | 3 | Training logs + final checkpoint committed | done: `release/intent_conformer/` (best.pt, ONNX, config, history, log), `release/slot_conformer/` |
-| 4 | Pi latency reproduced by the posted script | done: `deployment/benchmark_pi.py` on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class `vcm-benchmark` run pending |
+| 4 | Pi latency reproduced by the posted script | done: `deployment/benchmark_pi.py` on the Pi 5 → 36.9 ms p95, RTF 0.01 (1 thread); live class `vcm-benchmark`: 91.1 % intent, 21 ms inference, 1.21 s p95 response |
 | 5 | Held-out test set, unseen speakers | done: test (104 speakers) and holdout (4 speakers) never seen in training or validation |
 | 6 | Baseline of comparable size compared | done: CNN + BiGRU 405 k params, test 97.41 % vs Conformer 98.01 % (same data and recipe) |
