@@ -6,6 +6,12 @@
 
 Printable two-page version: [poster/poster.pdf](poster/poster.pdf) (drawn by `poster/make_poster.py`).
 
+Figures (PNG; each has an HTML source next to it, rendered at 2x):
+- [ELKIT full architecture](poster/figures/elkit_full_architecture.png): wake word -> shared log-mel -> (1) intent Conformer, then (2) slot Conformer only for the 6 slotted intents -> combined command -> action
+- [ELKIT pipeline](poster/figures/elkit_pipeline.png): overview from "Hi Elkit" to the action, all on the Raspberry Pi 5
+- [Slot model architecture](poster/figures/slot_model_architecture.png): same Conformer as the intent model, separate weights, 18 outputs (3 values of the predicted intent compete)
+- [Intent model architecture](poster/conformer_architecture.png)
+
 ## Model
 
 ```

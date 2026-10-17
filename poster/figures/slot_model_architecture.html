@@ -1,0 +1,91 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Slot model</title>
+<style>
+  body { margin:0; background:#fff; font-family:"DejaVu Sans","Segoe UI",Arial,sans-serif; color:#111; }
+  .wrap { width:1400px; padding:14px 18px 18px; box-sizing:border-box; }
+  .top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+  h1 { margin:0; font-size:26px; }
+  .meta { color:#444; font-size:15px; }
+  .row { display:flex; align-items:stretch; gap:0; }
+  .box { border:2px solid; border-radius:12px; padding:12px 10px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; height:300px; }
+  .box h2 { margin:0 0 10px; font-size:15.5px; line-height:1.2; }
+  .arrow { width:22px; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; }
+  .card { background:#fff; border:1.5px solid; border-radius:8px; padding:6px 8px; font-size:11.5px; line-height:1.35; margin:4px 0; width:100%; box-sizing:border-box; }
+  .card b { font-size:12px; }
+  .small { font-size:11px; color:#444; line-height:1.4; }
+  .same { position:absolute; }
+  .b-in  { background:#eaf1fb; border-color:#9bbbe3; width:118px; }
+  .b-mel { background:#ebf6e9; border-color:#9ccf93; width:140px; }
+  .b-stem{ background:#fdebef; border-color:#eaa7b5; width:150px; border-style:dashed; }
+  .b-proj{ background:#fff3e0; border-color:#efc77e; width:118px; }
+  .b-enc { background:#f1ecfa; border-color:#b3a2dc; width:178px; }
+  .b-pool{ background:#e6f4f8; border-color:#94cfdc; width:118px; }
+  .b-cls { background:#fff4d6; border-color:#e0a64a; width:198px; border-width:3px; }
+  .b-out { background:#ebf6e9; border-color:#9ccf93; width:150px; }
+  .c-pink{ border-color:#eaa7b5 } .c-purple{ border-color:#b3a2dc } .c-blue{ border-color:#94cfdc } .c-gold{ border-color:#e0a64a }
+  .shared { margin-top:10px; display:flex; align-items:center; gap:10px; font-size:13px; }
+  .bracket { flex:0 0 auto; border:2px solid #8a8a8a; border-top:none; height:12px; border-radius:0 0 8px 8px; }
+  .legend { margin-top:8px; display:flex; gap:22px; font-size:13px; color:#333; }
+  .chip { display:inline-block; width:14px; height:14px; border-radius:3px; vertical-align:-2px; margin-right:6px; }
+  .intent-in { font-size:11px; background:#fde2b8; border:1.5px dashed #c98a1e; border-radius:6px; padding:4px 6px; margin-bottom:6px; width:100%; box-sizing:border-box; }
+  .vals { display:grid; grid-template-columns:1fr 1fr 1fr; gap:3px; width:100%; margin-top:4px; }
+  .vals span { font-size:10px; border:1px solid #c9c9c9; border-radius:4px; padding:2px 0; background:#fff; }
+  .vals span.on { background:#3c9a4a; color:#fff; border-color:#2f7a3a; font-weight:700; }
+  .bars { display:flex; align-items:flex-end; gap:6px; height:58px; margin:6px 0 8px; }
+  .bars i { width:16px; background:#bfc7cf; border-radius:2px; display:block; }
+  .bars i.win { background:#3c9a4a; }
+</style></head><body><div class="wrap">
+  <div class="top"><h1>Conformer Slot Model Architecture</h1>
+    <div class="meta">643 k parameters · 2.7 MB ONNX · 18 slot values (3 per slotted intent) · job 65703</div></div>
+  <div class="row">
+    <div class="box b-in"><h2>Audio Input</h2>
+      <svg width="96" height="46" viewBox="0 0 96 46"><path d="M0 23 L8 23 L11 14 L14 32 L18 8 L22 38 L26 4 L30 42 L34 12 L38 34 L42 18 L46 28 L52 22 L60 25 L68 21 L76 24 L96 23" fill="none" stroke="#2b6cb0" stroke-width="1.6"/></svg>
+      <div class="small" style="margin-top:10px">same command clip<br>as the intent model<br>(mono, 16 kHz, ≤ 5 s)</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-mel"><h2>Log-Mel<br>Spectrogram</h2>
+      <svg width="118" height="60" viewBox="0 0 118 60"><defs><linearGradient id="g" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#1b2a6b"/><stop offset=".5" stop-color="#1f8a8a"/><stop offset="1" stop-color="#e6e15a"/></linearGradient></defs><rect width="118" height="60" fill="#1b2a6b"/><path d="M0 50 C20 20 40 55 60 30 S100 15 118 35" stroke="url(#g)" stroke-width="7" fill="none"/><path d="M0 38 C25 12 45 45 65 20 S100 8 118 22" stroke="#7ad08a" stroke-width="3" fill="none" opacity=".8"/></svg>
+      <div class="small" style="margin-top:6px">64 mel bands<br>25 ms window · 10 ms hop<br>20–8,000 Hz, dB<br>per-clip normalised</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-stem"><h2>Conv Stem<br>(subsampling 4×)</h2>
+      <div class="card c-pink"><b>Conv1</b><br>3×3, stride 2 · 1→32<br>BatchNorm · SiLU</div>
+      <div class="card c-pink"><b>Conv2</b><br>3×3, stride 2 · 32→32<br>BatchNorm · SiLU</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-proj"><h2>Reshape +<br>Projection</h2>
+      <div class="card" style="border-color:#efc77e">512 features<br>(32 × 16)</div>
+      <div class="small" style="margin-top:8px">Linear 512 → 96<br>(40 ms / frame)</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-enc"><h2>Conformer Encoder<br>× 4 layers (d = 96)</h2>
+      <div class="card c-purple"><b>Feed-forward ½</b> 96→192→96</div>
+      <div class="card c-purple"><b>Self-attention</b> 4 heads, masked</div>
+      <div class="card c-purple"><b>Conv module</b> depthwise k = 15</div>
+      <div class="card c-purple"><b>Feed-forward ½</b> + LayerNorm</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-pool"><h2>Attentive<br>Stats Pooling</h2>
+      <div class="small">attention weights<br>over time</div>
+      <div class="card c-blue" style="margin-top:10px">mean ⊕ std<br>96 + 96 = 192</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-cls"><h2>Slot Classifier</h2>
+      <div class="intent-in">from the intent model: <b>TIMER</b></div>
+      <div class="card c-gold"><b>Linear 192 → 18</b><br>one score per slot value</div>
+      <div class="card c-gold"><b>Keep the 3 values of the intent</b><br>softmax over those 3 → best wins</div>
+      <div class="vals"><span>10 s</span><span class="on">30 s</span><span>1 min</span></div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-out"><h2>Output</h2>
+      <div class="bars"><i style="height:18px"></i><i class="win" style="height:54px"></i><i style="height:12px"></i></div>
+      <div style="font-weight:700;font-size:15px">"30 seconds"</div>
+      <div class="small" style="margin-top:8px">TIMER + 30 seconds<br>→ ELKIT starts<br>the timer</div></div>
+  </div>
+  <div class="shared">
+    <div class="bracket" style="width:932px; margin-left:0"></div><span style="color:#555">same as the intent model</span>
+  </div>
+  <div class="legend">
+    <span><span class="chip" style="background:#d9d9d9;border:1px solid #999"></span>Audio → pooling: <b>same architecture as the intent model</b> (separate weights, trained for values)</span>
+    <span><span class="chip" style="background:#fff4d6;border:2px solid #e0a64a"></span>Only difference: <b>18 outputs, only the predicted intent's 3 values compete</b> (no reject threshold)</span>
+  </div>
+  <div class="legend" style="margin-top:6px">
+    <span><b>6 slotted intents × 3 values:</b> TIMER 10 s / 30 s / 1 min · ALARM 6 AM / 8 AM / 9 PM · TEMPERATURE 18 / 22 / 26 °C · BRIGHTNESS 20 / 60 / 100 % · COLOR red / green / blue · REMINDER water / study / exercise</span>
+  </div>
+  <div class="legend" style="margin-top:6px">
+    <span><b>Results:</b> 99.3 % test · 100 % holdout (on the Pi 5) · 99.0 % live (speaker → mic)</span>
+  </div>
+</div></body></html>

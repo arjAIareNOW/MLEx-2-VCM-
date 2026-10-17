@@ -1,0 +1,88 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ELKIT full architecture</title>
+<style>
+  body { margin:0; background:#fff; font-family:"DejaVu Sans","Segoe UI",Arial,sans-serif; color:#111; }
+  .wrap { width:1400px; padding:14px 18px 16px; box-sizing:border-box; }
+  .top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; }
+  h1 { margin:0; font-size:26px; }
+  .meta { color:#444; font-size:14.5px; }
+  .pi { border:2.5px solid #7cc47a; border-radius:16px; padding:26px 12px 12px; position:relative; background:#f7fbf6; }
+  .pi-label { position:absolute; top:-14px; left:18px; background:#e6f4e4; border:2px solid #7cc47a; border-radius:8px; padding:3px 12px; font-weight:700; font-size:14px; color:#1d5a1d; }
+  .grid { display:grid; grid-template-columns: 104px 24px 158px 24px 122px 24px 1fr 24px 200px 24px 158px; align-items:center; }
+  .box { border:2px solid; border-radius:12px; padding:10px 8px; box-sizing:border-box; text-align:center; }
+  .box h2 { margin:0 0 6px; font-size:15px; line-height:1.2; }
+  .t { font-size:11.5px; color:#333; line-height:1.4; }
+  .n { font-size:11.5px; font-weight:700; color:#1d2742; margin-top:6px; line-height:1.4; }
+  .arrow { text-align:center; font-size:22px; font-weight:700; }
+  .b-mic  { background:#eaf1fb; border-color:#9bbbe3; height:250px; display:flex; flex-direction:column; justify-content:center; }
+  .b-wake { background:#e3f3f7; border-color:#7fc2d3; height:250px; display:flex; flex-direction:column; justify-content:center; }
+  .b-mel  { background:#ebf6e9; border-color:#9ccf93; height:250px; display:flex; flex-direction:column; justify-content:center; }
+  .lanes { display:flex; flex-direction:column; gap:12px; }
+  .lane { border:2px solid; border-radius:12px; padding:8px; display:flex; align-items:stretch; gap:6px; position:relative; }
+  .lane .tag { white-space:nowrap; position:absolute; top:-11px; left:12px; font-size:12px; font-weight:700; padding:1px 8px; border-radius:6px; border:1.5px solid; background:#fff; }
+  .l-int { background:#fff6e8; border-color:#e0a64a; } .l-int .tag { border-color:#e0a64a; color:#7a4b00; }
+  .l-slot { background:#fff9ee; border-color:#e8bd6a; } .l-slot .tag { border-color:#e8bd6a; color:#7a4b00; }
+  .blk { flex:1; background:#fff; border:1.5px solid; border-radius:8px; padding:6px 4px; font-size:10.5px; line-height:1.3; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+  .blk b { font-size:11px; }
+  .s1 { border-color:#eaa7b5; } .s2 { border-color:#efc77e; } .s3 { border-color:#b3a2dc; } .s4 { border-color:#94cfdc; } .s5 { border-color:#e0a64a; border-width:2.5px; background:#fffaf0; }
+  .mini { font-size:10px; color:#555; }
+  .cross { white-space:nowrap; text-align:center; font-size:11px; color:#7a4b00; font-weight:700; margin:-4px 0; }
+  .b-comb { background:#f1ecfa; border-color:#a99ae0; height:250px; display:flex; flex-direction:column; justify-content:center; }
+  .json { white-space:nowrap; font-family:Consolas,"DejaVu Sans Mono",monospace; font-size:10.5px; text-align:left; background:#fff; border:1.5px solid #c8bdea; border-radius:6px; padding:6px; margin-top:6px; line-height:1.45; }
+  .b-act  { background:#ebf6e9; border-color:#9ccf93; height:250px; display:flex; flex-direction:column; justify-content:center; }
+  .acts { display:flex; flex-direction:column; gap:3px; margin-top:4px; }
+  .acts span { font-size:10.5px; background:#fff; border:1px solid #b9dcb3; border-radius:5px; padding:2px; }
+  .foot { display:flex; gap:16px; margin-top:12px; font-size:11.8px; color:#333; flex-wrap:wrap; }
+  .foot b { color:#111; }
+  .q { font-style:italic; color:#7a4b00; font-size:11.5px; margin-top:6px; }
+</style></head><body><div class="wrap">
+  <div class="top"><h1>ELKIT: wake word + two Conformers → one command</h1>
+    <div class="meta">Intent 65672 · Slot 65703 · Wake 65684 · offline on the Raspberry Pi 5</div></div>
+  <div class="pi"><div class="pi-label">Raspberry Pi 5 (8 GB) · onnxruntime, CPU only · no cloud</div>
+  <div class="grid">
+    <div class="box b-mic"><h2>USB Mic</h2><div class="t">always listening<br>16 kHz mono</div>
+      <div class="q">"Hi Elkit … set a timer for 30 seconds"</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-wake"><h2>Wake Word<br>"Hi / Hello Elkit"</h2>
+      <div class="t">openWakeWord front end<br>+ Elkit head (0.21 M)<br>last 2 s, every 80 ms<br>fires ≥ 0.886 × 2 readings</div>
+      <div class="n">1.5 % false wakes<br>on real sentences</div>
+      <div class="mini" style="margin-top:6px">→ chime, record command<br>(adaptive end, ≤ 5 s)</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-mel"><h2>Log-Mel<br>(computed once)</h2>
+      <div class="t">64 mel bands<br>25 ms / 10 ms<br>20–8,000 Hz, dB<br>per-clip normalised</div>
+      <div class="n">≤ 501 × 64<br>shared by both<br>models</div></div>
+    <div class="arrow" style="line-height:1.1">➚<br><br><span style="color:#999">➘</span></div>
+    <div class="lanes">
+      <div class="lane l-int"><span class="tag">① Intent model · runs first · Conformer · 644 k · 2.7 MB</span>
+        <div class="blk s1"><b>Conv stem</b>2 × conv 3×3<br>stride 2 · 32 ch</div>
+        <div class="blk s2"><b>Projection</b>512 → 96<br>40 ms/frame</div>
+        <div class="blk s3" style="flex:1.6"><b>Conformer × 4</b>FF½ · self-attention (4 heads)<br>· conv k = 15 · FF½</div>
+        <div class="blk s4"><b>Stats pooling</b>mean ⊕ std<br>→ 192</div>
+        <div class="blk s5" style="flex:1.4"><b>Classifier 192 → 19</b>softmax · reject &lt; 0.693<br><span style="color:#2f7a3a;font-weight:700">→ TIMER (97 %)</span></div>
+      </div>
+      <div class="cross">↓ then ② — only if the intent needs a value (6 of 19 intents); its 3 values compete</div>
+      <div class="lane l-slot"><span class="tag">② Slot model · runs after ① · same log-mel, same design, own weights · 643 k</span>
+        <div class="blk s1"><b>Conv stem</b>2 × conv 3×3<br>stride 2 · 32 ch</div>
+        <div class="blk s2"><b>Projection</b>512 → 96<br>40 ms/frame</div>
+        <div class="blk s3" style="flex:1.6"><b>Conformer × 4</b>FF½ · self-attention (4 heads)<br>· conv k = 15 · FF½</div>
+        <div class="blk s4"><b>Stats pooling</b>mean ⊕ std<br>→ 192</div>
+        <div class="blk s5" style="flex:1.4"><b>Classifier 192 → 18</b>keep TIMER's 3 values:<br><span style="white-space:nowrap">10 s · 30 s · 1 min</span><br><span style="color:#2f7a3a;font-weight:700">→ 30 seconds</span></div>
+      </div>
+    </div>
+    <div class="arrow" style="line-height:1.1">➘<br><br>➚</div>
+    <div class="box b-comb"><h2>ELKIT combines</h2>
+      <div class="t">① intent + ② slot<br>→ one command</div>
+      <div class="json">{"intent": "TIMER",<br>&nbsp;"slot": "30 seconds",<br>&nbsp;"confidence": 0.97,<br>&nbsp;"infer_ms": 21}</div>
+      <div class="mini" style="margin-top:6px">rejected → "Sorry,<br>please try again"</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-act"><h2>Action + Reply</h2>
+      <div class="acts"><span>LED ring · Tapo bulb</span><span>LCD · temperature bar</span><span>music (local / Spotify)</span><span>timer · alarm · reminders</span><span>SIM900A call / SMS</span><span>touch dashboard</span></div>
+      <div class="n">"Timer started."</div></div>
+  </div></div>
+  <div class="foot">
+    <span><b>Holdout on the Pi 5</b> (202 clips): intent 98.4 % · slot 100 %</span>
+    <span><b>Live</b> (speaker → mic): intent 91.1 % · slot 99.0 % · wrong command 0.5 %</span>
+    <span><b>Speed</b> (① then ②): 19 ms typical, 37 ms p95 · RTF 0.01</span>
+    <span><b>Pi load:</b> 53.5 °C max · 5.7 % CPU · 157 MB RAM</span>
+  </div>
+</div></body></html>

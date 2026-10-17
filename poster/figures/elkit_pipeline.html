@@ -1,0 +1,64 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ELKIT pipeline</title>
+<style>
+  body { margin:0; background:#fff; font-family:"DejaVu Sans","Segoe UI",Arial,sans-serif; color:#111; }
+  .wrap { width:1400px; padding:14px 18px 16px; box-sizing:border-box; }
+  .top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; }
+  h1 { margin:0; font-size:26px; }
+  .meta { color:#444; font-size:15px; }
+  .pi { border:2.5px solid #7cc47a; border-radius:16px; padding:28px 14px 14px; position:relative; background:#f7fbf6; }
+  .pi-label { position:absolute; top:-14px; left:18px; background:#e6f4e4; border:2px solid #7cc47a; border-radius:8px; padding:3px 12px; font-weight:700; font-size:14px; color:#1d5a1d; }
+  .row { display:flex; align-items:stretch; }
+  .box { border:2px solid; border-radius:12px; padding:12px 10px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .box h2 { margin:0 0 6px; font-size:16px; line-height:1.2; }
+  .box .what { font-size:12.5px; color:#333; line-height:1.4; }
+  .box .num { margin-top:auto; padding-top:8px; font-size:12px; font-weight:700; color:#1d2742; line-height:1.45; }
+  .arrow { width:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:24px; font-weight:700; }
+  .arrow small { font-size:10.5px; white-space:nowrap; font-weight:400; color:#555; margin-top:2px; }
+  .b-mic  { background:#eaf1fb; border-color:#9bbbe3; width:132px; }
+  .b-wake { background:#e3f3f7; border-color:#7fc2d3; width:190px; }
+  .b-feat { background:#ebf6e9; border-color:#9ccf93; width:160px; }
+  .b-int  { background:#fff1dc; border-color:#e0a64a; width:190px; }
+  .b-slot { background:#fff6e3; border-color:#e8bd6a; width:180px; }
+  .b-act  { background:#efeafb; border-color:#a99ae0; width:250px; }
+  .acts { display:grid; grid-template-columns:1fr 1fr; gap:4px; width:100%; margin-top:4px; }
+  .acts span { font-size:11.5px; background:#fff; border:1px solid #c8bdea; border-radius:5px; padding:3px 2px; }
+  .chime { font-size:11px; color:#555; }
+  .foot { display:flex; gap:28px; margin-top:12px; font-size:13px; color:#333; flex-wrap:wrap; }
+  .foot b { color:#111; }
+  .q { font-style:italic; color:#7a4b00; font-size:12.5px; margin:2px 0 4px; }
+</style></head><body><div class="wrap">
+  <div class="top"><h1>ELKIT: from "Hi Elkit" to action</h1>
+    <div class="meta">Embedded Listening Keyword-based Intent Terminal · offline, no cloud</div></div>
+  <div class="pi"><div class="pi-label">Raspberry Pi 5 (8 GB) · onnxruntime, CPU only</div>
+  <div class="row">
+    <div class="box b-mic"><h2>USB Microphone</h2>
+      <div class="what">always listening<br>16 kHz mono</div>
+      <div class="q">"Hi Elkit, set a timer for 30 seconds"</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-wake"><h2>Wake Word<br>"Hi / Hello Elkit"</h2>
+      <div class="what">openWakeWord front end + Elkit head<br>last 2 s, checked every 80 ms<br>fires at ≥ 0.886, 2 readings in a row</div>
+      <div class="num">1.5 % false wakes on real sentences<br>~10 ms per check (Pi 5)</div></div>
+    <div class="arrow">➜<small>chime</small></div>
+    <div class="box b-feat"><h2>Command Audio<br>→ Log-Mel</h2>
+      <div class="what">records until you stop<br>(adaptive pause, ≤ 5 s)<br>64 mel bands, 10 ms hop</div>
+      <div class="num">shared by both models</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-int"><h2>Intent Model<br><span style="font-weight:400;font-size:13px">Conformer · 644 k</span></h2>
+      <div class="what"><b>what</b> do you want?<br>1 of 19 intents<br>reject if confidence &lt; 0.693</div>
+      <div class="num">→ TIMER<br>98.4 % holdout · 91.1 % live</div></div>
+    <div class="arrow">➜<small>if needed</small></div>
+    <div class="box b-slot"><h2>Slot Model<br><span style="font-weight:400;font-size:13px">Conformer · 643 k</span></h2>
+      <div class="what"><b>which</b> value?<br>best of the intent's 3 values<br>(6 intents need one)</div>
+      <div class="num">→ "30 seconds"<br>100 % holdout · 99.0 % live</div></div>
+    <div class="arrow">➜</div>
+    <div class="box b-act"><h2>Actions</h2>
+      <div class="acts"><span>16-LED ring</span><span>Tapo bulb (Wi-Fi)</span><span>LCD 16×2</span><span>10-LED temp bar</span><span>music (local / Spotify)</span><span>SIM900A call / SMS</span><span>spoken reply</span><span>touch dashboard</span></div>
+      <div class="num">"Timer started."</div></div>
+  </div></div>
+  <div class="foot">
+    <span><b>Speed on the Pi 5:</b> intent + slot 19 ms typical, 37 ms p95 (RTF 0.01)</span>
+    <span><b>Live test</b> (speaker → mic, 202 clips): intent 91.1 % · slot 99.0 % · wrong command 0.5 %</span>
+    <span><b>Pi load:</b> 53.5 °C max, no throttling · ELKIT 5.7 % CPU, 157 MB RAM</span>
+  </div>
+</div></body></html>
