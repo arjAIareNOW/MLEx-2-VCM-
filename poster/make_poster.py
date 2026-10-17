@@ -84,6 +84,7 @@ table(ax, L, y, [2.2, LW - 2.2], ["Item", "Value"], [
                              "(intent + slot) 98.39 % holdout, 97.60 % test"],
     ["False-accept rate", "wake word 1.5 % of real sentences, 0 / 6,194 real words · out-of-scope commands accepted 31.6 % (test)"],
     ["Latency p95 / RTF", "36.9 ms / 0.01 per command (p50 18.8 ms) · wake word 70.0 ms per 80 ms step, RTF 0.22"],
+    ["Holdout on the Pi", "intent 98.39 % (183/186) · slot 100 % · out-of-scope 5/16 (202 clips)"],
     ["Runtime", "onnxruntime · 1 thr (Pi 5 CPU, 202 holdout clips)"],
 ])
 

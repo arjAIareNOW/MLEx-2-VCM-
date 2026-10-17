@@ -45,6 +45,7 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 | Keyword / intent acc | **86.6 %** generated voices, **65.6 %** real-speaker phrases (wake word, test, 0.886 × 2) / **98.39 %** (holdout, intent) · whole command (intent + slot) **98.39 %** holdout, **97.60 %** test |
 | False-accept rate | wake word: **1.5 %** of real sentences, **0 / 6,194** real words, 1 / 89 real commands (test); intent out-of-scope: 31.6 % (test) |
 | Latency p95 / RTF | **36.9 ms** / **0.01** per command (log-mel + intent + slot, p50 18.8 ms) · wake word 70.0 ms per 80 ms step / 0.22 (Pi 5, 1 thread, 202 holdout clips) |
+| Holdout on the Pi | intent **98.39 %** (183 / 186) · slot **100 %** (107 / 107) · out-of-scope accepted 5 / 16 (202 clips, 4 unseen speakers; `deployment/benchmark_pi.py`, same numbers as on the cluster) |
 | Runtime | onnxruntime · 1 thr |
 
 ### Live test on the Pi 5 (speaker → mic)
