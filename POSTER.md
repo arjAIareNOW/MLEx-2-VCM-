@@ -1,4 +1,4 @@
-# ME2 — Voice Controlled Smart Device
+# ME2 — ELKIT: Voice Controlled Smart Device
 
 **Always-on keyword + intent recognition at the edge · no cloud round-trip**
 
@@ -17,8 +17,8 @@ Figures (PNG; each has an HTML source next to it, rendered at 2x):
 ```
 Mic · 16 kHz → log-mel 64 × ≤501 (10 ms hop, ≤ 5 s)
 Wake word "Hello / Hi Elkit": frozen openWakeWord embedding → Elkit head (2 s window, every 80 ms)   [Marvin = backup]
-Conformer encoder × 4 · 96-dim  (non-causal; runs once per command after the wake word, so no KV cache / streaming)
-Intent head (19 + reject)         Slot head (separate 644 k Conformer, 18 values, 3 per slotted intent)
+(1) Intent Conformer × 4 · 96-dim -> 19 + reject   (2) Slot Conformer, same design, own weights -> 18 values
+(2) runs after (1), only for the 6 slotted intents; both non-causal, once per command (no KV cache / streaming)
 Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 GB), ONNX Runtime, CPU
 ```
 
@@ -46,26 +46,23 @@ Actuator: the app acts on {"intent", "slot"} events          Raspberry Pi 5 (8 G
 
 ## Validation on the Raspberry Pi 5
 
-| Item | Value |
-|---|---|
-| Keyword / intent acc | wake word **65.6 %** real-speaker phrases (86.6 % generated; test, 0.886 × 2) · intent **98.01 %** test (4,367 clips, 104 unseen speakers; macro-F1 0.971) · slot **99.25 %** test · whole command (intent + slot) 97.60 % test |
-| False-accept rate | wake word: **1.5 %** of real sentences, **0 / 6,194** real words, 1 / 89 real commands (test); intent out-of-scope: 31.6 % (test) |
-| Latency p95 / RTF | **36.9 ms** / **0.01** per command (log-mel + intent + slot, p50 18.8 ms) · wake word 70.0 ms per 80 ms step / 0.22 (Pi 5, 1 thread, 202 holdout clips) |
-| Holdout on the Pi | intent **98.39 %** (183 / 186) · slot **100 %** (107 / 107) · out-of-scope accepted 5 / 16 (202 clips, 4 unseen speakers; `deployment/benchmark_pi.py`, same numbers as on the cluster) |
-| Runtime | onnxruntime · 1 thr |
-
-### Live test on the Pi 5 (speaker → mic)
-
-Class `vcm-benchmark`, 14 Oct 2026: the laptop plays the 202 holdout clips through its speaker, about 1 m from the Pi's
-USB microphone (58 min). Wake word bypassed and actions not carried out (ELKIT recognised and logged each command only),
-so slow actions could not affect later trials; the wake word is evaluated separately above.
+Live test with the class `vcm-benchmark` (14 Oct 2026): the laptop plays the 202 holdout clips through its speaker,
+about 1 m from the Pi's USB microphone (58 min). The wake word was bypassed and actions were not carried out
+(ELKIT recognised and logged each command only), so slow actions could not affect later trials.
 
 | Item | Value |
 |---|---|
-| Intent / command | **91.1 %** / **90.6 %** (real voices 86.5 %, synthetic 95.3 %; 95 % CI 86-94 %) · slot exact **99.0 %** |
-| Errors | wrong command fired **0.5 %** · command ignored 4.3 % · out-of-scope accepted 9 / 16 (56 %, 95 % CI 33-77 %) |
-| Latency / RTF | inference **20.8 ms** mean, 42.5 ms p95 / **0.008** · response p50 / p95 0.99 / 1.21 s (includes the end-of-speech wait) |
-| Pi load | 53.5 °C max, no throttling · ELKIT 5.7 % CPU, 157 MB RAM |
+| Keyword / intent acc | intent **91.1 %** · command **90.6 %** · slot **99.0 %** (real voices 86.5 %, synthetic 95.3 %; 95 % CI 86-94 %) |
+| False-accept rate | out-of-scope accepted 9 / 16 (live, 95 % CI 33-77 %) · wake word **1.5 %** of real sentences (tested separately) |
+| Latency p95 / RTF | **43 ms** / **0.008** per command (mean 21 ms) · response after speech p95 1.21 s (mostly the end-of-speech pause) |
+| Runtime | onnxruntime · 1 thr · 53.5 °C max, no throttling · ELKIT 5.7 % CPU, 157 MB RAM |
+
+### Test results (offline)
+
+| Item | Value |
+|---|---|
+| Intent / slot | test **98.01 %** / **99.25 %** (4,367 clips, 104 unseen speakers; intent macro-F1 0.971) · holdout **98.39 %** / **100 %** (also reproduced on the Pi 5 with `deployment/benchmark_pi.py`: 36.9 ms p95, RTF 0.01) |
+| Wake word | **65.6 %** real-speaker phrases (86.6 % generated) · **1.5 %** false wakes on real sentences · 0 / 6,194 real words (test, 0.886 × 2) |
 
 ---
 

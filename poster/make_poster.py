@@ -57,7 +57,7 @@ def block(ax, x, y, w, h, text, fc, ec, size=13.5, color="#14361a"):
 
 # ------------------------------------------------------------------ page 1: model card
 fig1, ax = page()
-ax.text(0.45, 0.35, "ME2 — Voice Controlled Smart Device", fontsize=30, weight="bold", va="top", family=SANS)
+ax.text(0.45, 0.35, "ME2 — ELKIT: Voice Controlled Smart Device", fontsize=30, weight="bold", va="top", family=SANS)
 ax.text(0.45, 1.0, "Always-on keyword + intent recognition at the edge · no cloud round-trip", fontsize=16.5, weight="bold", va="top", family=SANS)
 ax.text(0.45, 1.45, "14 October 2026 · Arjay Arnao, AI231 ME2 · Model · Dataset · Training on A100 · Validation on Raspberry Pi 5",
         fontsize=14, va="top", family=SANS)
@@ -65,14 +65,17 @@ ax.text(0.45, 1.45, "14 October 2026 · Arjay Arnao, AI231 ME2 · Model · Datas
 L, LW = 0.45, 7.05; R, RW = 7.85, 6.7
 y = heading(ax, L, 2.0, "Model")
 bh, gap = 0.40, 0.07
+hw = (LW - 0.12) / 2
 block(ax, L, y, LW, bh, "Mic · 16 kHz → log-mel 64 × ≤501 (10 ms hop, ≤ 5 s)", "#e8f0fb", "#8fb0e0", color="#16325c"); y += bh + gap
 block(ax, L, y, LW, bh, "Wake word \"Hello / Hi Elkit\" · openWakeWord + Elkit head", "#e4f3f6", "#86c3d1", 12.5, "#0f4250"); y += bh + gap
-block(ax, L, y, LW, bh + 0.14, "Conformer encoder × 4 · 96-dim\n", "#e6f4e4", "#7cc47a"); \
-    ax.text(L + LW / 2, y + bh - 0.02, "non-causal · once per command after the wake word (no KV cache)", ha="center", va="center",
-            fontsize=10.5, color="#2b5a2e", family=SANS); y += bh + 0.14 + gap
-hw = (LW - 0.12) / 2
-block(ax, L, y, hw, bh, "Intent head (19 + reject)", "#fdebd3", "#e6a85c", 12.5, "#6b3d05")
-block(ax, L + hw + 0.12, y, hw, bh, "Slot head (18 values)", "#fdebd3", "#e6a85c", 12.5, "#6b3d05"); y += bh + gap
+for k, (title, sub) in enumerate([("① Intent model", "Conformer × 4 · 96-dim → 19 + reject"),
+                                  ("② Slot model", "same design, own weights → 18 values")]):
+    xx = L + k * (hw + 0.12)
+    block(ax, xx, y, hw, bh + 0.2, title + chr(10), "#fdebd3", "#e6a85c", 12.5, "#6b3d05")
+    ax.text(xx + hw / 2, y + bh + 0.02, sub, ha="center", va="center", fontsize=10.5, color="#6b3d05", family=SANS)
+y += bh + 0.2 + 0.02
+ax.text(L + LW / 2, y + 0.1, "② runs after ①, only for the 6 slotted intents · both non-causal, once per command (no KV cache)",
+        ha="center", va="center", fontsize=10, color="#555555", family=SANS); y += 0.22 + gap
 block(ax, L, y, hw, bh, "Actuator {intent, slot}", "#ece6f7", "#a08bd6", 12.5, "#3b2a6b")
 block(ax, L + hw + 0.12, y, hw, bh, "Raspberry Pi 5 (8 GB)", "#e6f4e4", "#7cc47a", 12.5); y += bh + 0.18
 
@@ -80,11 +83,10 @@ y = table(ax, L, y, [2.2, LW - 2.2], ["Item", "Value"],
           [["Parameters / weights", "intent 0.64 M · 2.7 MB · slot 0.64 M · 2.7 MB · wake head 0.21 M · 0.9 MB (+ frozen 0.6 M front end, 2.4 MB)"]])
 y = heading(ax, L, y + 0.18, "Validation on the Raspberry Pi 5")
 table(ax, L, y, [2.2, LW - 2.2], ["Item", "Value"], [
-    ["Keyword / intent acc", "wake word 65.6 % real-speaker phrases (86.6 % generated) · intent 98.01 % test (4,367 clips) · slot 99.25 % test"],
-    ["False-accept rate", "wake word 1.5 % of real sentences, 0 / 6,194 real words · out-of-scope commands accepted 31.6 % (test)"],
-    ["Latency p95 / RTF", "36.9 ms / 0.01 per command (p50 18.8 ms) · wake word 70.0 ms per 80 ms step, RTF 0.22"],
-    ["Holdout on the Pi", "intent 98.39 % (183/186) · slot 100 % · out-of-scope 5/16 (202 clips)"],
-    ["Runtime", "onnxruntime · 1 thr (Pi 5 CPU, 202 holdout clips)"],
+    ["Keyword / intent acc", "intent 91.1 % · command 90.6 % · slot 99.0 % (live: laptop speaker → Pi mic, 202 holdout clips)"],
+    ["False-accept rate", "out-of-scope accepted 9 / 16 (live) · wake word 1.5 % of real sentences (tested separately)"],
+    ["Latency p95 / RTF", "43 ms / 0.008 per command (mean 21 ms) · response after speech p95 1.21 s"],
+    ["Runtime", "onnxruntime · 1 thr · 53.5 °C max, no throttling · 157 MB RAM"],
 ])
 
 y = heading(ax, R, 2.0, "Dataset")
@@ -101,11 +103,10 @@ y = table(ax, R, y, [1.75, RW - 1.75], ["Item", "Value"], [
     ["Optimiser", "AdamW lr 2e-3, wd 0.05, 5-epoch warm-up + cosine, batch 128, bf16, EMA"],
     ["Steps / loss", "24,720 steps (120 epochs, best epoch 112) / train 0.879 · validation 0.262"],
 ])
-y = heading(ax, R, y + 0.18, "Live test on the Pi 5 (speaker → mic)")
+y = heading(ax, R, y + 0.18, "Test results (offline)")
 table(ax, R, y, [1.75, RW - 1.75], ["Item", "Value"], [
-    ["Intent / command", "91.1 % / 90.6 % · slot 99.0 % (202 clips)"],
-    ["Errors", "wrong 0.5 % · ignored 4.3 % · out-of-scope 9/16"],
-    ["Latency / RTF", "21 ms (p95 43 ms) / 0.008 · reply p95 1.21 s"],
+    ["Intent / slot", "test 98.01 % / 99.25 % (4,367 clips) · holdout 98.39 % / 100 %"],
+    ["Wake word", "65.6 % real-speaker phrases · 1.5 % false wakes"],
 ])
 
 # ------------------------------------------------------------------ page 2: submission + reviewer checklist
