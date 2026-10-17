@@ -80,8 +80,7 @@ y = table(ax, L, y, [2.2, LW - 2.2], ["Item", "Value"],
           [["Parameters / weights", "intent 0.64 M · 2.7 MB · slot 0.64 M · 2.7 MB · wake head 0.21 M · 0.9 MB (+ frozen 0.6 M front end, 2.4 MB)"]])
 y = heading(ax, L, y + 0.18, "Validation on the Raspberry Pi 5")
 table(ax, L, y, [2.2, LW - 2.2], ["Item", "Value"], [
-    ["Keyword / intent acc", "wake word 86.6 % generated / 65.6 % real-speaker phrases (test, 0.886 × 2) · whole command "
-                             "(intent + slot) 98.39 % holdout, 97.60 % test"],
+    ["Keyword / intent acc", "wake word 65.6 % real-speaker phrases (86.6 % generated) · intent 98.01 % test (4,367 clips) · slot 99.25 % test"],
     ["False-accept rate", "wake word 1.5 % of real sentences, 0 / 6,194 real words · out-of-scope commands accepted 31.6 % (test)"],
     ["Latency p95 / RTF", "36.9 ms / 0.01 per command (p50 18.8 ms) · wake word 70.0 ms per 80 ms step, RTF 0.22"],
     ["Holdout on the Pi", "intent 98.39 % (183/186) · slot 100 % · out-of-scope 5/16 (202 clips)"],
